@@ -1,0 +1,63 @@
+<div class="projects-container">
+  <div ng-repeat="project in projects">
+    <div class="project">
+      <div class="project-header">
+        <span editable-text="project.name" e-style="background-color:black; color:white;" e-form="textBtnForm" buttons="no">
+          {{ project.name || "empty" }}
+        </span>
+        <button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+          edit
+        </button>
+      </div>
+
+      <div class="project-body">
+          <form ng-submit="addTask()" class="form-horizontal">
+            <div class="form-group">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <div class="col-md-8">
+                    <input type="text" ng-model="taskName" class="form-control">
+                  </div>
+                  <div class="col-md-8">
+                    <input ng-model="deadline" datepicker-popup="dd-MMMM-yyyy" ui-date"dateOptions">
+                    <button class="btn" ng-click="open()"><i class="fa fa-calendar"></i></button>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-default">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        <% end %>
+
+        <ul class="tasks-list">
+          <li ng-repeat="task in project.tasks">
+            {{task.taskName}}
+            {{task.deadline | date:'mediumDate'}}
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="project" id="newProject">
+    <div class="project-header">
+      <form ng-submit="addProject()" class="form-horizontal">
+        <div class="form-group">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <div class="col-md-10">
+                <input type="text" ng-model="projectName" class="form-control">
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-default">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
