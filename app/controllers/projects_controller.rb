@@ -1,29 +1,28 @@
-class ProjectController < ApplicationController
-  # before_action :authenticate_user!
-  # before_filter :find_project, only: [:show, :edit, :update, :destroy]
+class ProjectsController < ApplicationController
+  load_and_authorize_resource
+  def index
+    respond_with @projects
+  end
 
-  # def index
-  #   @projects = current_user.projects.ordered
-  # end
+  def show
+    respond_with @project
+  end
 
-  # def show
-  # end
+  def create
+    @project = Project.create(project_params)
+    respond_with @project
+  end
 
-  # def edit
-  # end
+  def update
+    @project.update_attributes(project_params)
+    respond_with @project
+  end
 
-  # def update
-  #   @project.update_attributes(project_params)
-  #   render json: @project
-  # end
+  def destroy
+    @project.destroy
 
-  # def delete
-  # end
-
-  # def destroy
-  #   @project.destroy
-  #   render nothing: true, status: :ok
-  # end
+    respond_with @project
+  end
 
   # def new_untitled
   #   @project = current_user.projects.new(name: 'Untitled')
@@ -42,9 +41,14 @@ class ProjectController < ApplicationController
   #   end
   #   render nothing: true
   # end
+  private
 
-  # def project_params
-  #   params.require(:project).permit(:name)
-  # end
+  def api_response(object, code = :ok)
+    render json: object.to_json, status: code
+  end
+
+  def project_params
+    params.require(:project).permit(:name)
+  end
 
 end

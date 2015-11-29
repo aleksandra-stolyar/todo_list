@@ -12,12 +12,19 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sprockets
+//= require jquery-ui/jquery-ui
+//= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 
 //= require angular/angular
 //= require angular-rails-templates
-//= require angular-ui-router
 //= require angular-xeditable
+//= require angular-resource/angular-resource
+//= require lodash/lodash
+//= require angular-ui-router
+//= require angular-ui-sortable/sortable
+//= require angular-bootstrap/ui-bootstrap-tpls.min.js
+//= require bootstrap-ui-datetime-picker/dist/datetime-picker.min.js
+
 //= require_tree .
 
 $('#newProject').animate({scrollTop: $('#newProject').prop("scrollHeight")}, 500);

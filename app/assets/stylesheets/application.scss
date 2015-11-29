@@ -12,31 +12,17 @@
  *
  */
 
+$fa-font-path: "fontawesome/fonts";
+
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 
-head {
-  * {
-    padding: 0;
-    margin: 0;
-  }
-  .fit { /* set relative picture size */
-    max-width: 100%;
-    max-height: 100%;
-  }
-  .center {
-    display: block;
-    margin: auto;
-  }
-}
+@import "fontawesome/scss/font-awesome";
 
 body {
-  background-color: white;
+  background-image: image_url('cover.jpg');
+  background-size: cover;
   background-attachment: fixed;
-  // background: transparent !important;
-  // position: fixed;
-  // top: 0;
-  // left: 0;
 }
 
 a, span {
@@ -46,70 +32,60 @@ a, span {
   font-size: 1.1em;
   font-weight: bold;
   letter-spacing: 2px;
-  &:hover, &:active, &:focus {
+  &:hover, &:active {
     text-decoration: none;
   };
 }
 
-h1, h2 {
-  // text-align: center;
+.control-button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  // overflow: hidden;
+  outline:none;
 }
 
-input[type="text"] {
-  text-transform: uppercase;
-  font-size: 1.1em;
-  font-weight: bold;
-  letter-spacing: 2px;
+task .control-button {
+  color: grey;
+  &:hover, &:focus {color: #337ab7}
 }
+
 
 .header {
   background-color: white;
   border-radius: 0;
-  position: static;
+  position: relative;
   padding-bottom: .8em;
-  // top: 0;
-  // left: 0;
-  height: 10em;
-
-  // position: absolute;
+  overflow: hidden;
   .account-menu {
-    // position: relative;
-    // z-index: 1;
-    // top: .75em;
-    // right: 1.5em;
+    position: absolute;
+    z-index: 1;
+    top: .75em;
+    right: 1.5em;
 
   }
   .branding {
     position: relative;
-    // top: 2em;
+    margin: .5em;
   }
 }
 
 .content {
-  background-image: image_url('cover.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: fixed;
-  z-index: 1;
   width: 100%;
   height: 100%;
   padding: 3em;
-  position: relative;
-  top: 0;
-  left: 0;
-
 }
 
-.projects-container {
-  // padding: 2em;
+.editable-wrap {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
   position: relative;
-  z-index: 10;
-  margin-top: 100%;
 }
 
-.project {
-  // padding: .75em .75em .9em;
+project {
+  display: block;
   margin-top: 2em;
   margin-bottom: 2em;
   border-bottom-right-radius: .5em;
@@ -119,11 +95,16 @@ input[type="text"] {
 
   .project-header {
     padding: .75em .75em .9em;
-    // display: block;
-    &:hover {
-      background-color: white;
-      color: black;
-    };
+    border-bottom: .2em solid white;
+    input[type="text"] {
+      text-transform: uppercase;
+      font-size: 1.1em;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .project-name {
+      margin-left: .5em;
+    }
     input[type="text"] {
       background-color: rgba(255,255,255,0.3);
       border: none;
@@ -140,44 +121,84 @@ input[type="text"] {
       };
     };
 
-    &:last-of-type {
-      overflow-y: scroll;
-      &:hover, &:focus {
-        background-color: transparent;
-        // color: white;
-      };
-      input[type="text"] {
-        &:active {
-          // background-color: black;
-          background-color: transparent;
-          // box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.9);
-          color: white;
-          border: .2em solid white;
-
-        };
-      };
-    };
   };
 
-  .project-body {
-    background-color: rgba(255,255,255,0.3);
-  };
-  a {
-    color: inherit;
-    &:hover {
-      // color: black;
-
-    };
+  .add-task-form {
+    padding: .75em .75em .9em;
   }
 
+  .project-body {
+    // padding: .75em .75em .9em;
+    background-color: white;
+    // visibility: hidden;
+    task {
+      span {
+        text-transform: none;
+      }
+      color: #262628;
+
+    }
+    // .task-row {border-bottom: 1px solid #e7ebea;}
+
+  };
+
+  a { color: inherit; }
+
 }
 
-a.editable-click {
-  color: green;
-  border-bottom: dotted 2px green;
+.task-row {
+  border-bottom: 1px solid #e7ebea;
+
+  padding: .4em .75em;
+  :first-of-type {padding: .6em .75em .4em;}
+  // :last-of-type {padding: .4em .75em;}
 }
-a.editable-click:hover {
-  background-color: black;
-  color: #47a447;
-  border-bottom-color: #47a447;
+
+// 1 Поля будут установлены одновременно от каждого края элемента.
+// 2 Первое значение устанавливает поля от верхнего и нижнего края, второе — от левого и правого.
+// 3 Первое значение задает поле от верхнего края, второе — одновременно от левого и правого края, а третье — от нижнего края.
+// 4 Поочередно устанавливается поля от верхнего, правого, нижнего и левого края.
+
+#newProject {
+  border-radius: .5em;
+  padding-top: 1em; //find padding in projects and remove here
+  padding-left: 2em;
+  overflow-y: scroll;
+  border: solid white;
+  color: white;
+
+  &:hover, &:focus {
+    background-color: transparent;
+  };
+  input[type="text"] {
+    &:active {
+      background-color: transparent;
+      color: white;
+      border: .2em solid white;
+    };
+  };
+
+  button { font-weight: bold; }
+}
+
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
+  border: 0;
+}
+
+.pshh {
+  height: 25px;
+}
+
+.task-deadline {
+  // padding-top: 20px;
+  // padding-bottom: 50px;
+  font-weight: normal;
+  letter-spacing: normal;
+  font-size: 0.9em;
+  color: orange;
+}
+
+.task-completed {
+  text-decoration: line-through;
 }

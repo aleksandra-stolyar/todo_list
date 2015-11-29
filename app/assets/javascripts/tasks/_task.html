@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-5 task-data">
+    <input type="checkbox" style="margin-right: 1em" ng-checked="task.status === 'completed'" ng-click="setStatus(task.status=1)">
+    <span editable-text="task.name" e-form="textBtnForm" buttons="no" ng-class="{'task-completed' : task.status === 'completed'}">
+      {{task.name}}
+    </span>
+  </div>
+  <div class="col-md-4 text-right pshh">
+    <span class="task-deadline" ng-if="task.deadline">
+      <i class="fa fa-exclamation-circle">
+        {{task.deadline | date:'mediumDate'}}
+      </i>
+    </span>
+  </div>
+  <div class="col-md-3 text-right">
+    <span ng-model="task.deadline" datetime-picker="mediumDate" ng-change="addDeadline()" is-open="opened['index'+$index]" datepicker-options="dateOptions" enable-time="false" style="display:none; width:0; padding:0;"></span>
+    <button type="button" class="control-button" ng-click="openCalendar($event, $index)"><i class="fa fa-calendar"></i></button>
+    <button class="control-button" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+      <i class="fa fa-pencil"></i>
+    </button>
+    <button class="control-button" ng-click="addComment()">
+      <i class="fa fa-comments-o"></i>
+    </button>
+    <button class="control-button" ng-click="deleteTask()">
+      <i class="fa fa-trash"></i>
+    </button>
+  </div>
+
+</div>

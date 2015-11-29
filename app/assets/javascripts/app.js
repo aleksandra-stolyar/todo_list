@@ -2,27 +2,42 @@ var app = angular.module('ToDoApp', [
   'ui.router',
   'templates',
   'xeditable',
-  'ui.date'
+  'ui.bootstrap',
+  'ui.bootstrap.datetimepicker'
+  // 'ngResource'
 ]);
 
-app.config(['$stateProvider',
-'$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('project', {
+    .state('projects', {
       url: '/projects',
-      controller: 'ProjectsController',
-      templateUrl: 'projects/_projects.html'
+      templateUrl: 'projects/_main.html',
+      controller: 'ProjectsCtrl',
+      resolve: {
+        projectsPromise: ['ProjectsService', function(ProjectsService){
+          return ProjectsService.getAll();
+        }]
+      }
+      // ,
+      // resolve: {
+      //   project: ['$stateParams', 'ProjectsService', function($stateParams, ProjectsService) {
+      //     return ProjectsService.getAll($stateParams.id);
+      //   }]
+      // }
     });
-  $urlRouterProvider.otherwise('/projects');
-    // .state('', {
-    //   url: '/about',
-    //   controller: 'AboutController',
-    //   templateUrl: 'views/about.html'
-    // });
 }]);
 
-app.run(function(editableOptions, editableThemes) {
-  editableThemes.bs3.inputClass = 'input-sm';
-  editableThemes.bs3.buttonsClass = 'btn-sm';
-  editableOptions.theme = 'bs3';
+app.directive('project', function() {
+  return {
+    templateUrl: 'projects/_project.html'
+  };
 });
+
+app.directive('task', function() {
+  return {
+    templateUrl: 'tasks/_task.html'
+  };
+});
+
+
+

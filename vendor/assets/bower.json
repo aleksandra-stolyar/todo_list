@@ -6,7 +6,9 @@
     "angular-ui-router": "latest",
     "angular-xeditable": "latest",
     "angular-ui-sortable": "latest",
-    "angular-ui-date": "latest",
-    "components-font-awesome": "latest"
+    "fontawesome": "latest",
+    "angular-resource": "latest",
+    "angular-bootstrap": "latest",
+    "bootstrap-ui-datetime-picker": "latest"
   }
 }

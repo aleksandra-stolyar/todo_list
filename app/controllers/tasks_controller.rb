@@ -1,44 +1,44 @@
-class TaskController < ApplicationController
-  # load_and_authorize_resource :project
-  # load_and_authorize_resource through: :project
+class TasksController < ApplicationController
+  load_and_authorize_resource :project
+  load_and_authorize_resource through: :project, :shallow => true
 
-  # def create
-  #   @task = @project.tasks.new(task_params)
-  #   if @task.save
-  #     render @task
-  #   else
-  #     render text: @task.errors.full_messages.join("\n"), status: :error
-  #   end
-  # end
+  def index
+    # binding.pry
+    respond_with @tasks
+  end
 
-  # def update
-  #   @task.update_attributes(task_params)
-  #   render json: @task
-  # end
+  def show
+    # binding.pry
+    respond_with @task
+  end
 
-  # def delete
-  # end
+  def create
+    # binding.pry
+    @task = @project.tasks.create(task_params)
+    # redirect_to project_tasks_url(@project)
+    respond_with @task
+    # binding.pry
+  end
 
-  # def destroy
-  #   @task.destroy
-  #   render nothing: true, status: :ok
-  # end
+  def update
+    @task.update_attributes(task_params)
+    respond_with @task
+  end
 
-  # def find_project
-  #   @project = Project.find(params[:project_id])
-  # end
-
-  # def find_task
-  #   @task = Task.find(params[:id])
-  # end
+  def destroy
+    @task.destroy
+    respond_with @task
+  end
 
   # def done
   #   @task.done!
   #   render @task
   # end
 
-  # def task_params
-  #   params.require(:task).permit(:name, :rate, :deadline, :done)
-  # end  
+  private
+
+  def task_params
+    params.require(:task).permit(:name, :deadline, :status, :rate, :project_id)
+  end
 
 end
