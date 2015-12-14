@@ -15,3 +15,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+*.jpg
+
+public/uploads/tmp/1450047751-5870-5154/Budjet.png
+
+public/uploads/tmp/1450046886-5870-4682/Описание_к_ТЗ.pdf

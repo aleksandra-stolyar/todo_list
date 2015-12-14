@@ -94,18 +94,17 @@ project {
   color: white;
 
   .project-header {
-    padding: .75em .75em .9em;
+    padding: .75em .75em .6em;
     border-bottom: .2em solid white;
+    .project-name {
+      margin-left: .5em;
+    }
     input[type="text"] {
       text-transform: uppercase;
       font-size: 1.1em;
       font-weight: bold;
       letter-spacing: 2px;
-    }
-    .project-name {
-      margin-left: .5em;
-    }
-    input[type="text"] {
+
       background-color: rgba(255,255,255,0.3);
       border: none;
       color: white;
@@ -136,9 +135,20 @@ project {
         text-transform: none;
       }
       color: #262628;
-
+      comment {
+        a, span {
+          font-weight: normal;
+          letter-spacing: normal;
+          padding-left: .5em;
+          font-size: 1em;
+          color: grey;
+          text-transform: none;
+        }
+        a:hover {
+          color: #337ab7;
+        }
+      }
     }
-    // .task-row {border-bottom: 1px solid #e7ebea;}
 
   };
 
@@ -150,8 +160,11 @@ project {
   border-bottom: 1px solid #e7ebea;
 
   padding: .4em .75em;
-  :first-of-type {padding: .6em .75em .4em;}
-  // :last-of-type {padding: .4em .75em;}
+  &:first-of-type {padding: .6em .75em .4em;}
+  &:last-of-type {
+    padding: .4em .75em;
+    border-bottom: none;
+  }
 }
 
 // 1 Поля будут установлены одновременно от каждого края элемента.
@@ -186,7 +199,7 @@ project {
   border: 0;
 }
 
-.pshh {
+.deadline {
   height: 25px;
 }
 
@@ -202,3 +215,14 @@ project {
 .task-completed {
   text-decoration: line-through;
 }
+
+.comments-body {
+  width:inherit;
+  form {
+    margin: .5em;
+  }
+
+}
+// .comment-form {
+//   width: 500px;
+// }
