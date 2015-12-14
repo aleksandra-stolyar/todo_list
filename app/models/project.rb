@@ -6,6 +6,6 @@ class Project < ActiveRecord::Base
   scope :ordered, -> { order('created_at ASC') }
 
   def as_json(options = {})
-    super(options.merge(include: :tasks))
+    super(options.merge(include: {:tasks => {include: {:comments => {include: :attachments}}}}))
   end
 end

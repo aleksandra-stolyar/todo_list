@@ -24,6 +24,8 @@
 //= require angular-ui-sortable/sortable
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require bootstrap-ui-datetime-picker/dist/datetime-picker.min.js
+//= require ng-file-upload
+//= require ng-file-upload-shim
 
 //= require_tree .
 

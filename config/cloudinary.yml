@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: aleksandra-stolyar
+  api_key: '258223448498375'
+  api_secret: u6lSqKbpRZVxnRS0Pr8amNdONX8
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: aleksandra-stolyar
+  api_key: '258223448498375'
+  api_secret: u6lSqKbpRZVxnRS0Pr8amNdONX8
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: aleksandra-stolyar
+  api_key: '258223448498375'
+  api_secret: u6lSqKbpRZVxnRS0Pr8amNdONX8
+  enhance_image_tag: true
+  static_image_support: false

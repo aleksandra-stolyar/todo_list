@@ -3,7 +3,8 @@ var app = angular.module('ToDoApp', [
   'templates',
   'xeditable',
   'ui.bootstrap',
-  'ui.bootstrap.datetimepicker'
+  'ui.bootstrap.datetimepicker',
+  'ngFileUpload'
   // 'ngResource'
 ]);
 
@@ -18,12 +19,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
           return ProjectsService.getAll();
         }]
       }
-      // ,
-      // resolve: {
-      //   project: ['$stateParams', 'ProjectsService', function($stateParams, ProjectsService) {
-      //     return ProjectsService.getAll($stateParams.id);
-      //   }]
-      // }
     });
 }]);
 
@@ -39,5 +34,9 @@ app.directive('task', function() {
   };
 });
 
-
+app.directive('comment', function() {
+  return {
+    templateUrl: 'comments/_comment.html'
+  };
+});
 

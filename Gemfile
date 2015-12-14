@@ -42,7 +42,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'aasm', '~> 4.2.0'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
-gem "mini_magick"
+gem 'cloudinary'
 
 gem 'angular-rails-templates'
 gem "bower-rails", "~> 0.10.0"

@@ -9,6 +9,8 @@
     "fontawesome": "latest",
     "angular-resource": "latest",
     "angular-bootstrap": "latest",
-    "bootstrap-ui-datetime-picker": "latest"
+    "bootstrap-ui-datetime-picker": "latest",
+    "ng-file-upload-shim": "latest",
+    "ng-file-upload": "latest"
   }
 }
