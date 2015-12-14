@@ -16,6 +16,10 @@ app.factory('ProjectsService', ['$http', function($http) {
     });
   };
 
+  projects.update = function(project, data) {
+    return $http.put('/projects/' + project.id + '.json', {"name": data})
+  };
+
   projects.delete = function(project) {
     return $http.delete('/projects/' + project.id + '.json')
       .success(function(data){

@@ -9,6 +9,12 @@ app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'Ta
     console.log("Project created!");
   };
 
+  $scope.updateProject = function(data) {
+    ProjectsService.update(this.project, data).then(function(){
+      console.log("Project updated!");
+    });
+  };
+
   $scope.deleteProject =function() {
     ProjectsService.delete(this.project).then(function() {
       $scope.projects = ProjectsService.projects;
