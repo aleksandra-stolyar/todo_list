@@ -2,22 +2,9 @@ class TasksController < ApplicationController
   load_and_authorize_resource :project
   load_and_authorize_resource through: :project, :shallow => true
 
-  def index
-    # binding.pry
-    respond_with @tasks
-  end
-
-  def show
-    # binding.pry
-    respond_with @task
-  end
-
   def create
-    # binding.pry
     @task = @project.tasks.create(task_params)
-    # redirect_to project_tasks_url(@project)
     respond_with @task
-    # binding.pry
   end
 
   def update
@@ -29,11 +16,6 @@ class TasksController < ApplicationController
     @task.destroy
     respond_with @task
   end
-
-  # def done
-  #   @task.done!
-  #   render @task
-  # end
 
   private
 

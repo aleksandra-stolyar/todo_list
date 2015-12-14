@@ -1,0 +1,31 @@
+<div class="container" style="width:inherit">
+  <div class="row">
+    <div class="col-md-6">
+      <span><i class="fa fa-comment"></i></span>
+      <span editable-text="comment.body" e-form="textBtnForm" buttons="no">
+        {{comment.body}}
+      </span>
+    </div>
+
+    <div class="col-md-4 text-right">
+      <button class="control-button" ng-click="addAttachment()" ngf-select="addAttachment($files, data)" ng-model="files" ngf-multiple="true">
+        <i class="fa fa-paperclip"></i>
+      </button>
+      <button class="control-button" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+        <i class="fa fa-pencil"></i>
+      </button>
+      <button class="control-button" ng-click="deleteComment()">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  </div>
+  <div ng-repeat="file in comment.attachments">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <span><i class="fa fa-cloud-download"></i></span>
+        <a ng-href="{{file.attachment.url}}" target="_blank">File №{{$index+1}}</a>
+        <!-- <img ngf-thumbnail="{{file.attachment}}" width="100px" height="100px"> -->
+      </div>
+    </div>
+  </div>
+</div>

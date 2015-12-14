@@ -1,6 +1,7 @@
 class Task < ActiveRecord::Base
   enum status: { in_progress: 0, completed:1 }
   belongs_to :project
+  has_many :comments, dependent: :destroy#, include: true
 
   validates :name, presence: true
 

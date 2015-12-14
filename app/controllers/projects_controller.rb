@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :project
+
   def index
     respond_with @projects
   end
