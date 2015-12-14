@@ -10,8 +10,8 @@ app.factory('TasksService', ['$http', function($http) {
       });
   };
 
-  tasks.updateTask = function(task) {
-    return $http.put('/tasks/' + task.id + '.json', {"project_id": task.project_id, "name": task.name, "deadline": task.deadline, "rate": task.rate, "status": task.status})
+  tasks.updateTask = function(task, data) {
+    return $http.put('/tasks/' + task.id + '.json', {"project_id": task.project_id, "name": data, "deadline": task.deadline, "rate": task.rate, "status": task.status})
   };
 
   tasks.createComment = function(task, comment) {

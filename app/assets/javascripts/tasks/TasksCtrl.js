@@ -9,8 +9,8 @@ app.controller('TasksCtrl', ['$scope', 'TasksService', '$stateParams', function(
 
   $scope.task = {deadline: new Date()};
 
-  $scope.addDeadline = function() {
-    TasksService.updateTask(this.task).then(function() {
+  $scope.updateTask = function(data) {
+    TasksService.updateTask(this.task, data).then(function() {
       console.log("Task updated!");
     });
   };
