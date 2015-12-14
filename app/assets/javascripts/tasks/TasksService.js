@@ -1,30 +1,22 @@
-// app.factory('ProjectsService', ['$http', function($http) {
+app.factory('TasksService', ['$http', function($http) {
+  var tasks = {
+    tasks: []
+  };
 
-//   var o = {
-//     tasks: []
-//   };
-//   o.getAll = function() {
-//     return $http.get('/projects.json')
-//     .success(function(data){
-//       angular.copy(data, o.projects);
-//     })
-//   };
+  tasks.deleteTask = function(project, task) {
+    return $http.delete('/tasks/' + task.id + '.json')
+      .success(function() {
+        project.tasks = _.without(project.tasks, task);
+      });
+  };
 
-//   // o.delete = function(project) {
-//   //   return $http.delete('/projects/' + project.id + '.json').success(function(data){
-//   //     o.projects = _.without(o.projects, project);
-//   //   });
-//   // };
+  tasks.updateTask = function(task) {
+    return $http.put('/tasks/' + task.id + '.json', {"project_id": task.project_id, "name": task.name, "deadline": task.deadline, "rate": task.rate, "status": task.status})
+  };
 
-//   o.createTask = function(project, task) {
-//     debugger;
-//     return $http.post('/projects/' + project.id + '/tasks.json', task);
-//   };
+  tasks.createComment = function(task, comment) {
+    return $http.post('/tasks/' + task.id + '/comments.json', comment);
+  };
 
-//   return o;
-// }]);
-
-
-// // .factory ('ProjectsService', ['$resource', function($resource) {
-// //   return $resource('/projects/:id', {id: '@id'});
-// // }])
+  return tasks;
+}]);

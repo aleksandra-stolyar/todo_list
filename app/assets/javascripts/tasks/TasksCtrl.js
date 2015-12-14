@@ -1,27 +1,47 @@
-app.controller('TasksCtrl', ['$scope', 'TasksService', function($scope, TasksService) {
+app.controller('TasksCtrl', ['$scope', 'TasksService', '$stateParams', function($scope, TasksService, $stateParams) {
 
-  // $scope.addTask = function(project) {
-  //   if($scope.taskName === '') { return; }
-  //   debugger;
+  $scope.deleteTask = function() {
+    // debugger
+    TasksService.deleteTask(this.project, this.task).then(function() {
+      console.log("Task removed!");
+    });
+  };
 
-  //   ProjectsService.createTask(project, {name: $scope.taskName})
-  //     .success(function(task) {
-  //       $scope.project.tasks.push(task);
-  //     });
-  //   $scope.taskName = '';
-  // };
+  $scope.task = {deadline: new Date()};
 
-  // $scope.dateOptions = {
-  //   changeYear: true,
-  //   changeMonth: true,
-  //   yearRange: '-0:+10'
-  // };
+  $scope.addDeadline = function() {
+    TasksService.updateTask(this.task).then(function() {
+      console.log("Task updated!");
+    });
+  };
 
-  // $scope.open = function() {
-  //   $timeout(function() {
-  //     $scope.opened = true;
-  //   });
-  // };
+  $scope.setStatus = function() {
+    TasksService.updateTask(this.task).then(function() {
+      console.log("Task updated!");
+    });
+  };
 
+  $scope.addComment = function() {
+    if($scope.commentBody === '') { return; }
+
+    TasksService.createComment($scope.$parent.task, {body: $scope.commentBody})
+      .success(function(comment) {
+        $scope.$parent.task.comments.push(comment);
+        console.log("Comment created!");
+      });
+    $scope.commentBody = '';
+  };
+  $scope.opened = {};
+
+  $scope.dateOptions = {
+    showWeeks: false,
+    startingDay: 1
+  };
+
+  $scope.openCalendar = function($event, taskIdx) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.opened['index'+taskIdx] = true;
+  };
 
 }])

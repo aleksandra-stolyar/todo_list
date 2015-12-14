@@ -5,7 +5,7 @@
       {{task.name}}
     </span>
   </div>
-  <div class="col-md-4 text-right pshh">
+  <div class="col-md-4 text-right deadline">
     <span class="task-deadline" ng-if="task.deadline">
       <i class="fa fa-exclamation-circle">
         {{task.deadline | date:'mediumDate'}}
@@ -18,7 +18,7 @@
     <button class="control-button" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
       <i class="fa fa-pencil"></i>
     </button>
-    <button class="control-button" ng-click="addComment()">
+    <button class="control-button" ng-click="goComments = !goComments">
       <i class="fa fa-comments-o"></i>
     </button>
     <button class="control-button" ng-click="deleteTask()">
@@ -27,3 +27,23 @@
   </div>
 
 </div>
+<div class="comments-body container" ng-show="goComments">
+  <div class="row">
+    <div class="col-md-10">
+      <form ng-submit="addComment()">
+        <div class="input-group">
+          <input type="text" class="form-control input-sm" ng-model="commentBody" placeholder="Add comment here...">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div ng-controller="CommentsCtrl">
+    <div ng-repeat="comment in task.comments">
+      <comment></comment>
+    </div>
+  </div>
+</div>
+
