@@ -180,14 +180,15 @@ project {
   border: solid white;
   color: white;
 
-  &:hover, &:focus {
-    background-color: transparent;
-  };
   input[type="text"] {
-    &:active {
+    &:active, &:focus {
       background-color: transparent;
       color: white;
       border: .2em solid white;
+      text-transform: uppercase;
+      font-size: 1.1em;
+      font-weight: bold;
+      letter-spacing: 2px;
     };
   };
 
