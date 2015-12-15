@@ -1,4 +1,4 @@
-app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', function($scope, ProjectsService, $stateParams, TasksService) {
+app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', function($scope, ProjectsService, $stateParams, TasksService, $http) {
   $scope.projects = ProjectsService.projects;
 
   $scope.createProject = function() {
@@ -32,5 +32,22 @@ app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'Ta
       });
     $scope.taskName = '';
   };
+
+  $scope.sortableOptions = {
+    connectWith: ".tasks-list",
+    cursor:"move",
+    stop:function(e,ui){
+      var taskIds = [];
+      var item = ui.item.sortable;
+      var parentEl = ui.item.parent();
+
+      $scope.$apply(function(){
+        taskIds = parentEl.sortable("toArray");
+        console.log(taskIds);
+        $http.post("/projects/save_sort", {taskIds: taskIds});
+      })
+    }
+  };
+
 
 }])

@@ -30,18 +30,20 @@ class ProjectsController < ApplicationController
   #   if @project.save
   #     render @project
   #   else
-  #     render text: @project.errors.full_messages.join("\n"), status: :error      
+  #     render text: @project.errors.full_messages.join("\n"), status: :error
   #   end
   # end
 
-  # def save_sort
-  #   params[:taskIds].each_with_index do |task_id, index|
-  #     task = Task.find(task_id)
-  #     task.rate = index
-  #     task.save!
-  #   end
-  #   render nothing: true
-  # end
+  def save_sort
+    # binding.pry
+    params[:taskIds].each_with_index do |task_id, index|
+      task = Task.find(task_id)
+      task.rate = index
+      task.save!
+    end
+    render nothing: true
+  end
+
   private
 
   def api_response(object, code = :ok)

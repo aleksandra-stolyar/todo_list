@@ -4,8 +4,8 @@ var app = angular.module('ToDoApp', [
   'xeditable',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
-  'ngFileUpload'
-  // 'ngResource'
+  'ngFileUpload',
+  'ui.sortable'
 ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {

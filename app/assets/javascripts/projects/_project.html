@@ -37,8 +37,10 @@
 </div>
 <div>
   <div class="project-body" ng-controller="TasksCtrl">
-    <div ng-repeat="task in project.tasks" class="task-row">
-      <task></task>
+    <div ui-sortable="sortableOptions" ng-model="project.tasks" class="tasks-list">
+      <div id="{{task.id}}" ng-repeat="task in project.tasks" class="task-row">
+        <task></task>
+      </div>
     </div>
   </div>
 </div>

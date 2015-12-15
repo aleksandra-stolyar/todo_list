@@ -7,12 +7,16 @@ Rails.application.routes.draw do
   root to: 'application#angular'
 
   resources :projects, defaults: { format: :json } do
+    collection  do
+      post 'save_sort'
+    end
     resources :tasks, defaults: { format: :json }, shallow: true do
       resources :comments, defaults: { format: :json }, shallow: true do
         resources :attachments, defaults: { format: :json }, shallow: true
       end
     end
   end
+
 
   # get "*path" => "application#angular"
 
