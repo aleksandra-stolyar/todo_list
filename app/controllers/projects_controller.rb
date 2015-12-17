@@ -35,10 +35,10 @@ class ProjectsController < ApplicationController
   # end
 
   def save_sort
-    # binding.pry
     params[:taskIds].each_with_index do |task_id, index|
       task = Task.find(task_id)
       task.rate = index
+      task.project_id = params[:project_id]
       task.save!
     end
     render nothing: true

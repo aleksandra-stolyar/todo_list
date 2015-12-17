@@ -39,12 +39,14 @@ app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'Ta
     stop:function(e,ui){
       var taskIds = [];
       var item = ui.item.sortable;
-      var parentEl = ui.item.parent();
+      var parentEl = item.droptarget;
+      var targetProjectId = item.droptarget.parent().data("project-id")
 
       $scope.$apply(function(){
         taskIds = parentEl.sortable("toArray");
         console.log(taskIds);
-        $http.post("/projects/save_sort", {taskIds: taskIds});
+        $http.post("/projects/save_sort", {"taskIds": taskIds, "project_id": targetProjectId});
+        console.log("Tasks rated.")
       })
     }
   };
