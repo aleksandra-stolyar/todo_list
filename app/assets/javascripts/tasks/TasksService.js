@@ -12,6 +12,7 @@ app.factory('TasksService', ['$http', function($http) {
 
   tasks.update = function(task, data) {
     // debugger
+    task.status = +!task.status
     return $http.put('/tasks/' + task.id + '.json', {"project_id": task.project_id, "name": data, "deadline": task.deadline, "rate": task.rate, "status": task.status})
   };
 

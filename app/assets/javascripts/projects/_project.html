@@ -38,7 +38,7 @@
 <div>
   <div class="project-body" ng-controller="TasksCtrl" data-project-id="{{project.id}}">
     <div ui-sortable="sortableOptions" ng-model="project.tasks" class="tasks-list">
-      <div id="{{task.id}}" ng-repeat="task in project.tasks" class="task-row">
+      <div id="{{task.id}}" ng-repeat="task in project.tasks | orderBy:'task.rate'" class="task-row">
         <task></task>
       </div>
     </div>
