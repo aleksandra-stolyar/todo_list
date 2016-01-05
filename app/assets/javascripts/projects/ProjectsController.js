@@ -1,5 +1,6 @@
-app.controller('ProjectsCtrl', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', function($scope, ProjectsService, $stateParams, TasksService, $http) {
+app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', 'Auth', function($scope, ProjectsService, $stateParams, TasksService, $http, Auth) {
   $scope.projects = ProjectsService.projects;
+  $scope.signedIn = Auth.isAuthenticated;
 
   $scope.createProject = function() {
     if(!$scope.projectName || $scope.projectName === '') { return; }

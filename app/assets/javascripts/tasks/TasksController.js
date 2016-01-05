@@ -1,4 +1,4 @@
-app.controller('TasksCtrl', ['$scope', 'TasksService', '$stateParams', function($scope, TasksService, $stateParams) {
+app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', function($scope, TasksService, $stateParams) {
 
   $scope.deleteTask = function() {
     // debugger

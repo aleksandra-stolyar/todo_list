@@ -5,38 +5,29 @@ var app = angular.module('ToDoApp', [
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
   'ngFileUpload',
-  'ui.sortable'
+  'ui.sortable',
+  'Devise'
 ]);
-
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+//Routing
+app.config( function($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
     .state('projects', {
-      url: '/projects',
+      url: '/',
       templateUrl: 'projects/_main.html',
-      controller: 'ProjectsCtrl',
+      controller: 'ProjectsController',
+      data : {
+        requireLogin : true
+      },
       resolve: {
         projectsPromise: ['ProjectsService', function(ProjectsService){
           return ProjectsService.getAll();
-        }]
+        }],
       }
     });
-}]);
-
-app.directive('project', function() {
-  return {
-    templateUrl: 'projects/_project.html'
-  };
+  $locationProvider.html5Mode(true);
 });
 
-app.directive('task', function() {
-  return {
-    templateUrl: 'tasks/_task.html'
-  };
+// Intercept 401 Unauthorized everywhere
+app.config(function(AuthInterceptProvider) {
+  AuthInterceptProvider.interceptAuth(true);
 });
-
-app.directive('comment', function() {
-  return {
-    templateUrl: 'comments/_comment.html'
-  };
-});
-

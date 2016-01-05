@@ -57,13 +57,29 @@ task .control-button {
   border-radius: 0;
   position: relative;
   padding-bottom: .8em;
-  overflow: hidden;
+  // overflow: hidden;
+  // z-index: 2;
   .account-menu {
     position: absolute;
     z-index: 1;
     top: .75em;
     right: 1.5em;
+    .dropdown {
+          // z-index: 2;
 
+    }
+    .caret {
+      top: 45%;
+      position: absolute;
+    }
+    ul.dropdown-menu {
+      left: auto;
+      right: 0;
+      a {
+        text-transform: none;
+        letter-spacing: normal;
+      }
+    }
   }
   .branding {
     position: relative;
@@ -75,6 +91,7 @@ task .control-button {
   width: 100%;
   height: 100%;
   padding: 3em;
+  // z-index: 1;
 }
 
 .editable-wrap {
@@ -222,8 +239,52 @@ project {
   form {
     margin: .5em;
   }
-
 }
-// .comment-form {
-//   width: 500px;
-// }
+
+// login/sign up modal
+.modal-content {
+  border-radius: 0px;
+}
+
+.nav-tabs.nav-justified {
+  background-color: grey;
+  .active {
+    background-color: white;
+  }
+  a {
+    border-radius: 0px;
+    color: white;
+    &:hover {
+      background-color: #337ab7;
+    }
+  }
+
+  li a {
+    border-radius: 0px;
+  }
+}
+
+.modalButtonDiv {
+  text-align: center;
+  margin-bottom: 20px;
+  input {
+    width: 100px;
+  }
+}
+
+.facebook {
+  background-color: #337ab7;
+  color: white;
+  width: 100px;
+  .brr {
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  &:hover {
+    color: white;
+    .brr {
+      font-weight: bold;
+    }
+  }
+}

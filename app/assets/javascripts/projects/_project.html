@@ -18,7 +18,7 @@
 
 </div>
 
-<div class="add-task-form" ng-controller='ProjectsCtrl'>
+<div class="add-task-form" ng-controller='ProjectsController'>
   <div class="row">
     <form class="col-md-12"  ng-submit="addTask()">
       <div class="input-group">
@@ -36,7 +36,7 @@
   </div>
 </div>
 <div>
-  <div class="project-body" ng-controller="TasksCtrl" data-project-id="{{project.id}}">
+  <div class="project-body" ng-controller="TasksController" data-project-id="{{project.id}}">
     <div ui-sortable="sortableOptions" ng-model="project.tasks" class="tasks-list">
       <div id="{{task.id}}" ng-repeat="task in project.tasks | orderBy:'task.rate'" class="task-row">
         <task></task>

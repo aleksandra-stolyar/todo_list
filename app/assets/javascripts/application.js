@@ -16,6 +16,7 @@
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 
 //= require angular/angular
+//= require angular-devise
 //= require angular-rails-templates
 //= require angular-xeditable
 //= require angular-resource/angular-resource

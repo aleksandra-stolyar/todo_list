@@ -1,4 +1,4 @@
-app.controller('CommentsCtrl', ['$scope', 'CommentsService', '$stateParams', 'Upload', function($scope, CommentsService, $stateParams, Upload) {
+app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams', 'Upload', function($scope, CommentsService, $stateParams, Upload) {
   $scope.deleteComment = function() {
     CommentsService.deleteComment(this.task, this.comment).then(function() {
       console.log("Comment deleted!")
