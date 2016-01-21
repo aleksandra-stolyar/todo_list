@@ -1,4 +1,4 @@
-app.factory('AuthService', ['$http', function($http, $q) {
+app.factory('AuthService', ['$http', '$q', function($http, $q) {
   return {
     getMyLastName: function() {
         var deferred = $q.defer();
