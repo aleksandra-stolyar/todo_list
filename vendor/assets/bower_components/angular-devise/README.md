@@ -17,6 +17,12 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+Aditionally, if you have [CSRF Forgery
+Protection](http://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection/ClassMethods.html)
+enabled for your controller actions, you will also need to include the
+`X-CSRF-TOKEN` header with the token provided by rails. The easiest way
+to include this is to use the
+[angular_rails_csrf gem](https://github.com/jsanders/angular_rails_csrf).
 
 Downloading
 -----------
@@ -30,6 +36,22 @@ bower install --save angular-devise
 
 You can then use the main file at `angular-devise/lib/devise-min.js`.
 
+Rails Assets
+------------
+
+To get AngularDevise via [Rails Assets](https://rails-assets.org/) add to your Gemfile:
+
+```ruby
+source "https://rails-assets.org" do
+  gem "rails-assets-angular-devise"
+end
+```
+
+Then `bundle`. Finally, to require the JS:
+
+```js
+//= require angular-devise/lib/devise
+```
 
 Usage
 -----
@@ -55,10 +77,11 @@ currentUser. There are three possible outcomes:
  1. Auth has authenticated a user, and will resolve with that user.
  2. Auth has not authenticated a user but the server has a previously
     authenticated session, Auth will attempt to retrieve that session
-    and resolve with its user.
- 3. Neither Auth nor the server has an authenticated session, and an
-    unresolved promise will be returned. (see
-    [Interceptor](#interceptor) for rationale.)
+    and resolve with its user. Then, a `devise:new-session` event will
+    be broadcast with the current user as the argument.
+ 3. Neither Auth nor the server has an authenticated session, and a
+    rejected promise will be returned. (see [Interceptor](#interceptor)
+    for for custom handling.)
 
 ```javascript
 angular.module('myModule', ['Devise']).
@@ -108,15 +131,23 @@ angular.module('myModule', ['Devise']).
     });
 ```
 
-### Auth.login(creds)
+### Auth.login(creds, config)
 
 Use `Auth.login()` to authenticate with the server. Keep in mind,
 credentials are sent in plaintext; use a SSL connection to secure them.
 `creds` is an object which should contain any credentials needed to
 authenticate with the server. `Auth.login()` will return a promise that
 will resolve to the logged-in user. See
-[AuthProvider.parse()](#authprovider) for parsing the user into a usable
-object.
+[Auth.parse(response)](#authparseresponse) to customize how the response
+is parsed into a user.
+
+Upon a successful login, two events will be broadcast, `devise:login` and
+`devise:new-session`, both with the currentUser as the argument. New-Session will only
+be broadcast if the user was logged in by `Auth.login({...})`. If the server
+has a previously authenticated session, only the login event will be broadcast.
+
+Pass any additional config options you need to provide to `$http` with
+`config`.
 
 ```javascript
 angular.module('myModule', ['Devise']).
@@ -125,40 +156,68 @@ angular.module('myModule', ['Devise']).
             email: 'user@domain.com',
             password: 'password1'
         };
+        var config = {
+            headers: {
+                'X-HTTP-Method-Override': 'POST'
+            }
+        };
 
-        Auth.login(credentials).then(function(user) {
+        Auth.login(credentials, config).then(function(user) {
             console.log(user); // => {id: 1, ect: '...'}
         }, function(error) {
             // Authentication failed...
         });
+
+        $scope.$on('devise:login', function(event, currentUser) {
+            // after a login, a hard refresh, a new tab
+        });
+
+        $scope.$on('devise:new-session', function(event, currentUser) {
+            // user logged in by Auth.login({...})
+        });
     });
 ```
 
-By default, `login` will POST to '/users/sign_in.json'. The path and
-HTTP method used to login are configurable using:
+By default, `login` will POST to '/users/sign_in.json' using the
+resource name `user`. The path, HTTP method, and resource name used to
+login are configurable using:
 
 ```javascript
 angular.module('myModule', ['Devise']).
     config(function(AuthProvider) {
         AuthProvider.loginPath('path/on/server.json');
         AuthProvider.loginMethod('GET');
+        AuthProvider.resourceName('customer');
     });
 ```
 
 ### Auth.logout()
 
 Use `Auth.logout()` to de-authenticate from the server. `Auth.logout()`
-returns a promise that will be resolved to the old currentUser.
+returns a promise that will be resolved to the old currentUser. Then a
+`devise:logout` event will be broadcast with the old currentUser as the argument.
+
+Pass any additional config options you need to provide to `$http` with
+`config`.
 
 ```javascript
 angular.module('myModule', ['Devise']).
     controller('myCtrl', function(Auth) {
+        var config = {
+            headers: {
+                'X-HTTP-Method-Override': 'DELETE'
+            }
+        };
         // Log in user...
         // ...
-        Auth.logout().then(function(oldUser) {
+        Auth.logout(config).then(function(oldUser) {
             // alert(oldUser.name + "you're signed out now.");
         }, function(error) {
             // An error occurred logging out.
+        });
+
+        $scope.$on('devise:logout', function(event, oldCurrentUser) {
+            // ...
         });
     });
 ```
@@ -174,6 +233,39 @@ angular.module('myModule', ['Devise']).
     });
 ```
 
+### Auth.parse(response)
+
+This is the method used to parse the `$http` response into the appropriate
+user object. By default, it simply returns `response.data`. This can be
+customized either by specifying a parse function during configuration:
+
+```javascript
+angular.module('myModule', ['Devise']).
+    config(function(AuthProvider) {
+        // Customize user parsing
+        // NOTE: **MUST** return a truth-y expression
+        AuthProvider.parse(function(response) {
+            return response.data.user;
+        });
+    });
+```
+
+or by directly overwriting it, perhaps when writing a custom version of
+the Auth service which depends on another service:
+
+```javascript
+angular.module('myModule', ['Devise']).
+  factory('User', function() {
+    // Custom user factory
+  }).
+  factory('CustomAuth', function(Auth, User) {
+    Auth['parse'] = function(response) {
+      return new User(response.data);
+    };
+    return Auth;
+  });
+```
+
 ### Auth.register(creds)
 
 Use `Auth.register()` to register and authenticate with the server. Keep
@@ -181,8 +273,12 @@ in mind, credentials are sent in plaintext; use a SSL connection to
 secure them. `creds` is an object that should contain any credentials
 needed to register with the server. `Auth.register()` will return a
 promise that will resolve to the registered user. See
-[AuthProvider.parse()](#authproviderparse) for parsing the user into a
-usable object.
+[Auth.parse(response)](#authparseresponse) to customize how the response
+is parsed into a user. Then a `devise:new-registration` event will be
+broadcast with the user object as the argument.
+
+Pass any additional config options you need to provide to `$http` with
+`config`.
 
 ```javascript
 angular.module('myModule', ['Devise']).
@@ -192,23 +288,34 @@ angular.module('myModule', ['Devise']).
             password: 'password1',
             password_confirmation: 'password1'
         };
+        var config = {
+            headers: {
+                'X-HTTP-Method-Override': 'POST'
+            }
+        };
 
-        Auth.register(credentials).then(function(registeredUser) {
+        Auth.register(credentials, config).then(function(registeredUser) {
             console.log(registeredUser); // => {id: 1, ect: '...'}
         }, function(error) {
             // Registration failed...
         });
+
+        $scope.$on('devise:new-registration', function(event, user) {
+            // ...
+        });
     });
 ```
 
-By default, `register` will POST to '/users.json'. The path and HTTP
-method used to register are configurable using:
+By default, `register` will POST to '/users.json' using the resource
+name `user`. The path, HTTP method, and resource name used to register
+are configurable using:
 
 ```javascript
 angular.module('myModule', ['Devise']).
     config(function(AuthProvider) {
         AuthProvider.registerPath('path/on/server.json');
         AuthProvider.registerMethod('GET');
+        AuthProvider.resourceName('customer');
     });
 ```
 
@@ -216,11 +323,11 @@ angular.module('myModule', ['Devise']).
 Interceptor
 -----------
 
-AngularDevise creates an [$http
+AngularDevise comes with a [$http
 Interceptor](http://docs.angularjs.org/api/ng.$http#description_interceptors)
-that listens for `401 Unauthorized` response codes. Its purpose is to
-catch unauthorized requests on-the-fly and seamlessly recover. When it
-catches a 401, it will:
+that may be enabled using the `interceptAuth` config. Its purpose is to
+listen for `401 Unauthorized` responses and give you the ability to
+seamlessly recover. When it catches a 401, it will:
  1. create a deferred
  2. broadcast a `devise:unauthorized` event passing:
     - the ajax response
@@ -238,12 +345,22 @@ angular.module('myModule', []).
 
         // Catch unauthorized requests and recover.
         $scope.$on('devise:unauthorized', function(event, xhr, deferred) {
-            // Ask user for login credentials
+            // Disable interceptor on _this_ login request,
+            // so that it too isn't caught by the interceptor
+            // on a failed login.
+            var config = {
+                interceptAuth: false
+            };
 
-            Auth.login(credentials).then(function(user) {
+            // Ask user for login credentials
+            Auth.login(credentials, config).then(function() {
                 // Successfully logged in.
                 // Redo the original request.
-                $http(xhr.config).then(deferred.resolve, deferred.reject);
+                return $http(xhr.config);
+            }).then(function(response) {
+                // Successfully recovered from unauthorized error.
+                // Resolve the original request's promise.
+                deferred.resolve(response);
             }, function(error) {
                 // There was an error logging in.
                 // Reject the original request's promise.
@@ -252,7 +369,11 @@ angular.module('myModule', []).
         });
 
         // Request requires authorization
-        $http.delete('/users/1').then(function(response) {
+        // Will cause a `401 Unauthorized` response,
+        // that will be recovered by our listener above.
+        $http.delete('/users/1', {
+            interceptAuth: true
+        }).then(function(response) {
             // Deleted user 1
         }, function(error) {
             // Something went wrong.
@@ -260,17 +381,20 @@ angular.module('myModule', []).
     });
 ```
 
-The Interceptor can be disabled on a per-request basis by setting
-`ignoreAuth: true` on the [$http
-config](http://docs.angularjs.org/api/ng.$http#usage) object.
+The Interceptor can be enabled globally or on a per-request basis using the
+`interceptAuth` setting on the AuthIntercept provider.
 
 ```javascript
-angular.module('myModule', []).
+angular.module('myModule', ['Devise']).
+    config(function(AuthInterceptProvider) {
+        // Intercept 401 Unauthorized everywhere
+        AuthInterceptProvider.interceptAuth(true);
+    }).
     controller('myCtrl', function($http) {
         // Disable per-request
         $http({
             url: '/',
-            ignoreAuth: true,
+            interceptAuth: false,
             // ...
         });
     });
@@ -281,41 +405,52 @@ AuthProvider
 ------------
 
 By default, AngularDevise uses the following HTTP methods/paths:
- - **login**: POST /users/sign_in.json
- - **logout**: DELETE /users/sign_out.json
- - **register**: POST /users.json
 
-And the following parse function:
+| Method   | HTTP Method | HTTP Path            |
+| -------- | ----------- | -------------------- |
+| login    | POST        | /users/sign_in.json  |
+| logout   | DELETE      | /users/sign_out.json |
+| register | POST        | /users.json          |
+
+All credentials will be under the `users` namespace, and the following
+parse function will be used to parse the response:
 
 ```javascript
-function parse(response) {
-    var user = response.data;
-    return user;
-}
+function(response) {
+    return response.data;
+};
 ```
 
 All of these can be configured using a `.config` block in your module.
 
 ```javascript
 angular.module('myModule', ['Devise']).
-    config(function(AuthProvider) {
-        // Customise login
+    config(function(AuthProvider, AuthInterceptProvider) {
+        // Customize login
         AuthProvider.loginMethod('GET');
         AuthProvider.loginPath('/admins/login.json');
 
-        // Customise logout
+        // Customize logout
         AuthProvider.logoutMethod('POST');
         AuthProvider.logoutPath('/user/logout.json');
 
-        // Customise register
+        // Customize register
         AuthProvider.registerMethod('PATCH');
         AuthProvider.registerPath('/user/sign_up.json');
+
+        // Customize the resource name data use namespaced under
+        // Pass false to disable the namespace altogether.
+        AuthProvider.resourceName('customer');
 
         // Customize user parsing
         // NOTE: **MUST** return a truth-y expression
         AuthProvider.parse(function(response) {
-            return new User(response.data);
+            return response.data.user;
         });
+
+        // Intercept 401 Unauthorized everywhere
+        // Enables `devise:unauthorized` interceptor
+        AuthInterceptProvider.interceptAuth(true);
     });
 ```
 

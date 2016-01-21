@@ -18,6 +18,12 @@ devise.provider('Auth', function AuthProvider() {
     };
 
     /**
+     * Default devise resource_name is 'user', can be set to any string.
+     * If it's falsey, it will not namespace the data.
+     */
+    var resourceName = 'user';
+
+    /**
      * The parsing function used to turn a $http
      * response into a "user".
      *
@@ -31,19 +37,29 @@ devise.provider('Auth', function AuthProvider() {
      *      });
      *  });
      */
-    var parse = function(response) {
+    var _parse = function(response) {
         return response.data;
     };
 
-    // A helper function that will get the
-    // proper method.
-    function method(action) {
-        return methods[action].toLowerCase();
-    }
-    // A helper function that will get the
-    // proper path and append the path extension.
-    function path(action) {
-        return paths[action];
+    // A helper function that will setup the ajax config
+    // and merge the data key if provided
+    function httpConfig(action, data, additionalConfig) {
+        var config = {
+            method: methods[action].toLowerCase(),
+            url: paths[action]
+        };
+
+        if (data) {
+            if (resourceName) {
+                config.data = {};
+                config.data[resourceName] = data;
+            } else {
+                config.data = data;
+            }
+        }
+
+        angular.extend(config, additionalConfig);
+        return config;
     }
 
     // A helper function to define our configure functions.
@@ -63,12 +79,21 @@ devise.provider('Auth', function AuthProvider() {
     configure.call(this, methods, 'Method');
     configure.call(this, paths, 'Path');
 
+    // The resourceName config function
+    this.resourceName = function(value) {
+        if (value === undefined) {
+            return resourceName;
+        }
+        resourceName = value;
+        return this;
+    };
+
     // The parse configure function.
     this.parse = function(fn) {
         if (typeof fn !== 'function') {
-            return parse;
+            return _parse;
         }
-        parse = fn;
+        _parse = fn;
         return this;
     };
 
@@ -80,11 +105,9 @@ devise.provider('Auth', function AuthProvider() {
         };
     }
 
-    this.$get = function($q, $http) {
+    this.$get = function($q, $http, $rootScope) {
         // Our shared save function, called
-        // by `then`s. Will return the first argument,
-        // unless it is falsey (then it'll return
-        // the second).
+        // by `then`s.
         function save(user) {
             service._currentUser = user;
             return user;
@@ -94,6 +117,13 @@ devise.provider('Auth', function AuthProvider() {
             save(null);
         }
 
+        function broadcast(name) {
+            return function(data) {
+                $rootScope.$broadcast('devise:' + name, data);
+                return data;
+            };
+        }
+
         var service = {
             /**
              * The Auth service's current user.
@@ -101,6 +131,13 @@ devise.provider('Auth', function AuthProvider() {
              * on the scope.
              */
             _currentUser: null,
+
+            /**
+             * The Auth service's parsing function.
+             * Defaults to the parsing function set in the provider,
+             * but may also be overwritten directly on the service.
+             */
+            parse: _parse,
 
             /**
              * A login function to authenticate with the server.
@@ -118,12 +155,27 @@ devise.provider('Auth', function AuthProvider() {
              *  });
              *
              * @param {Object} [creds] A hash of user credentials.
+             * @param {Object} [config] Optional, additional config which
+             *                  will be added to http config for underlying
+             *                  $http.
              * @returns {Promise} A $http promise that will be resolved or
              *                  rejected by the server.
              */
-            login: function(creds) {
+            login: function(creds, config) {
+                var withCredentials = arguments.length > 0,
+                    loggedIn = service.isAuthenticated();
+
                 creds = creds || {};
-                return $http[method('login')](path('login'), {user: creds}).then(parse).then(save);
+                return $http(httpConfig('login', creds, config))
+                    .then(service.parse)
+                    .then(save)
+                    .then(function(user) {
+                        if (withCredentials && !loggedIn) {
+                            return broadcast('new-session')(user);
+                        }
+                        return user;
+                    })
+                    .then(broadcast('login'));
             },
 
             /**
@@ -138,12 +190,18 @@ devise.provider('Auth', function AuthProvider() {
              *      AuthProvider.logoutPath('path/on/server.json');
              *      AuthProvider.logoutMethod('GET');
              *  });
+             * @param {Object} [config] Optional, additional config which
+             *                  will be added to http config for underlying
+             *                  $http.
              * @returns {Promise} A $http promise that will be resolved or
              *                  rejected by the server.
              */
-            logout: function() {
+            logout: function(config) {
                 var returnOldUser = constant(service._currentUser);
-                return $http[method('logout')](path('logout')).then(reset).then(returnOldUser);
+                return $http(httpConfig('logout', undefined, config))
+                    .then(reset)
+                    .then(returnOldUser)
+                    .then(broadcast('logout'));
             },
 
             /**
@@ -162,12 +220,18 @@ devise.provider('Auth', function AuthProvider() {
              *  });
              *
              * @param {Object} [creds] A hash of user credentials.
+             * @param {Object} [config] Optional, additional config which
+             *                  will be added to http config for underlying
+             *                  $http.
              * @returns {Promise} A $http promise that will be resolved or
              *                  rejected by the server.
              */
-            register: function(creds) {
+            register: function(creds, config) {
                 creds = creds || {};
-                return $http[method('register')](path('register'), {user: creds}).then(parse).then(save);
+                return $http(httpConfig('register', creds, config))
+                    .then(service.parse)
+                    .then(save)
+                    .then(broadcast('new-registration'));
             },
 
             /**

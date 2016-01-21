@@ -2,21 +2,16 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "angular": "latest",
-    "bootstrap-sass-official": "latest",
+    "bootstrap-sass": "latest",
     "angular-ui-router": "latest",
     "angular-xeditable": "latest",
     "angular-ui-sortable": "latest",
     "fontawesome": "latest",
-    "angular-resource": "latest",
     "angular-bootstrap": "latest",
     "bootstrap-ui-datetime-picker": "latest",
     "ng-file-upload-shim": "latest",
     "ng-file-upload": "latest",
     "angular-devise": "latest",
-    "angular-devise-modal": "latest"
-  },
-  "resolutions": {
-    "angular": "1.4.7",
-    "angular-bootstrap": "~0.14.0"
+    "ui-router-extras": "latest"
   }
 }
