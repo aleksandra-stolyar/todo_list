@@ -16,8 +16,8 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', fun
   };
 
   $scope.setStatus = function() {
-    TasksService.update(this.task).then(function() {
-      console.log("Task updated!");
+    TasksService.updateStatus(this.task).then(function() {
+      console.log("Status changed!");
     });
   };
 
