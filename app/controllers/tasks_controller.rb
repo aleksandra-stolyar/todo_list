@@ -10,6 +10,7 @@ class TasksController < ApplicationController
   def update
     @task.update_attributes(task_params)
     respond_with @task
+    # binding.pry
   end
 
   def destroy

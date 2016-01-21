@@ -14,9 +14,8 @@
 
 $fa-font-path: "fontawesome/fonts";
 
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
-
+@import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
 @import "fontawesome/scss/font-awesome";
 
 body {

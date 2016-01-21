@@ -14,4 +14,9 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
     end
   end
+
+  # def as_json(options = {})
+  #   super(options.merge(include: :projects))
+  # end
+
 end
