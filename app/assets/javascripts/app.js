@@ -124,9 +124,6 @@ app.run(function ($rootScope, $state, Auth, $log, $window, AuthService) {
     }
   });
 
-
-
-
   $window.fbAsyncInit = function() {
     // Executed when the SDK is loaded
     FB.init({

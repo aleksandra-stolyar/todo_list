@@ -1,4 +1,4 @@
-app.controller('AuthModalController', function ($scope, $uibModalInstance, Auth, $state) {
+app.controller('AuthModalController', ['$scope', '$uibModalInstance', 'Auth', '$state', 'AuthService', function ($scope, $uibModalInstance, Auth, $state, AuthService) {
   $scope.currentState = $state.current.name;
   $scope.user = {};
   $scope.go = function(route){
@@ -39,4 +39,4 @@ app.controller('AuthModalController', function ($scope, $uibModalInstance, Auth,
      }
    );
   };
-});
+}]);
