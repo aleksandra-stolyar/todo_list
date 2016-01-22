@@ -10,7 +10,7 @@ var app = angular.module('ToDoApp', [
   'Devise'
 ]);
 //Routing
-app.config( function ($stateProvider, $urlRouterProvider, $locationProvider, $stickyStateProvider) {
+app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stickyStateProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $stickyStateProvider) {
   $stickyStateProvider.enableDebug(true);
   $stateProvider
     .state('home', {
@@ -67,14 +67,14 @@ app.config( function ($stateProvider, $urlRouterProvider, $locationProvider, $st
     });
 
   $locationProvider.html5Mode(true);
-});
+}]);
 
 // Intercept 401 Unauthorized everywhere
-app.config(function (AuthInterceptProvider) {
+app.config(['AuthInterceptProvider', function (AuthInterceptProvider) {
   AuthInterceptProvider.interceptAuth(true);
-});
+}]);
 
-app.run(function ($rootScope, $state, Auth, $log, $window, AuthService) {
+app.run(['$rootScope', '$state', 'Auth', '$log', '$window', 'AuthService', function ($rootScope, $state, Auth, $log, $window, AuthService) {
   $rootScope.$state = $state;
 
   Auth.currentUser().then(function(user) {
@@ -152,4 +152,4 @@ app.run(function ($rootScope, $state, Auth, $log, $window, AuthService) {
      fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-});
+}]);
