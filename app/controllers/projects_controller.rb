@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.create(project_params)
+    @project = current_user.projects.create(project_params)
     respond_with @project
   end
 
