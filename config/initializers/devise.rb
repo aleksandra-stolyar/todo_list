@@ -68,5 +68,16 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :facebook, "978411505538711", "c210f56c209aabdbf0f6386397fefff6", scope: 'email', info_fields: 'email, name', callback_url: "http://localhost:3000/users/auth/facebook/callback/"
+  config.omniauth :facebook,
+    Rails.application.secrets.facebook_app_id,
+    Rails.application.secrets.facebook_secret,
+    scope: 'email',
+    info_fields: 'email, name'
+
+  if Rails.env.production?
+    config.omniauth :facebook, callback_url: "https://best-todo-list.herokuapp.com/users/auth/facebook/callback/"
+  else
+    config.omniauth :facebook, callback_url: "http://localhost:3000/users/auth/facebook/callback/"
+  end
+
 end
