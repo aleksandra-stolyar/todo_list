@@ -4,18 +4,17 @@ class TasksController < ApplicationController
 
   def create
     @task = @project.tasks.create(task_params)
-    respond_with @task
+    render json: @task
   end
 
   def update
     @task.update_attributes(task_params)
-    respond_with @task
-    # binding.pry
+    render nothing: true, status: 204
   end
 
   def destroy
     @task.destroy
-    respond_with @task
+    render nothing: true, status: 204
   end
 
   private

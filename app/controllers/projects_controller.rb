@@ -2,27 +2,24 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource :project
 
   def index
-    respond_with @projects
-  end
-
-  def show
-    respond_with @project
+    # binding.pry
+    render json: @projects
   end
 
   def create
     @project = current_user.projects.create(project_params)
-    respond_with @project
+    render json: @project
   end
 
   def update
     @project.update_attributes(project_params)
-    respond_with @project
+    render nothing: true, status: 204
   end
 
   def destroy
     @project.destroy
 
-    respond_with @project
+    render nothing: true, status: 204
   end
 
   # def new_untitled

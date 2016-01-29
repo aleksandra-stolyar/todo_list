@@ -10,10 +10,9 @@ app.factory('CommentsService', ['$http', function($http) {
       });
   };
 
-  // comments.createAttachment = function(comment, attachment) {
-    
-    // return $http.post('/comments/' + comment.id + '/comments.json', attachment);
-  // };
+  comments.updateComment = function(comment, data) {
+    return $http.put('/comments/' + comment.id + '.json', {"body": data})
+  };
 
   return comments;
 

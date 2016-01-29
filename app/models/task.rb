@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   enum status: { in_progress: 0, completed:1 }
   belongs_to :project
-  has_many :comments, dependent: :destroy#, include: true
+  has_many :comments, dependent: :destroy
 
   validates :name, presence: true
 
@@ -19,5 +19,10 @@ class Task < ActiveRecord::Base
       transitions :from => :completed, :to => :in_progress
     end
   end
+
+  # def as_json(options = {})
+  #   super(options.merge(include: :comments))
+  # end
+
 
 end

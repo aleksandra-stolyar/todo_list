@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def as_json(options = {})
-    super(options.merge(include: :projects))
-  end
+  # def as_json(options = {})
+  #   super(options.merge(include: :projects))
+  # end
 
 end

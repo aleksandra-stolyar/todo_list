@@ -7,7 +7,7 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', fun
     });
   };
 
-  $scope.task = {deadline: new Date()};
+  // $scope.task = {deadline: new Date()};
 
   $scope.updateTask = function(data) {
     TasksService.update(this.task, data).then(function() {
@@ -23,10 +23,9 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', fun
 
   $scope.addComment = function() {
     if($scope.commentBody === '') { return; }
-
-    TasksService.createComment($scope.$parent.task, {body: $scope.commentBody})
+    TasksService.createComment($scope.task, {body: $scope.commentBody})
       .success(function(comment) {
-        $scope.$parent.task.comments.push(comment);
+        $scope.task.comments.push(comment);
         console.log("Comment created!");
       });
     $scope.commentBody = '';

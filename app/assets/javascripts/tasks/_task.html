@@ -30,7 +30,7 @@
 <div class="comments-body container" ng-show="goComments">
   <div class="row">
     <div class="col-md-10">
-      <form ng-submit="addComment()">
+      <form ng-controller="TasksController" ng-submit="addComment()">
         <div class="input-group">
           <input type="text" class="form-control input-sm" ng-model="commentBody" placeholder="Add comment here...">
           <span class="input-group-btn">

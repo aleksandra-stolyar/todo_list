@@ -24,7 +24,6 @@ app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams
 
   $scope.addTask = function() {
     if($scope.taskName === '') { return; }
-
     ProjectsService.createTask($scope.$parent.project, {name: $scope.taskName})
       .success(function(task) {
         $scope.$parent.project.tasks.push(task);

@@ -44,6 +44,8 @@ gem 'aasm', '~> 4.2.0'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'cloudinary'
 
+gem 'active_model_serializers'
+
 gem 'angular-rails-templates'
 gem "bower-rails", "~> 0.10.0"
 gem 'sprockets', '2.12.3'

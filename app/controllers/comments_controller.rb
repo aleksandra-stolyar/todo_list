@@ -4,12 +4,17 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @task.comments.create(comment_params)
-    respond_with @comment
+    render json: @comment
   end
 
   def destroy
     @comment.destroy
-    respond_with @comment
+    render nothing: true, status: 204
+  end
+
+  def update
+    @comment.update_attributes(comment_params)
+    render nothing: true, status: 204
   end
 
   private
@@ -17,6 +22,5 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:body, :task_id)
   end
-
 
 end

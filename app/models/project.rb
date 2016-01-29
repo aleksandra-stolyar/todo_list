@@ -5,7 +5,7 @@ class Project < ActiveRecord::Base
   validates :name, presence: true
   scope :ordered, -> { order('created_at ASC') }
 
-  def as_json(options = {})
-    super(options.merge(include: {:tasks => {include: {:comments => {include: :attachments}}}}))
-  end
+  # def as_json(options = {})
+  #   super(options.merge(include: {:tasks => {include: :comments }}))
+  # end
 end
