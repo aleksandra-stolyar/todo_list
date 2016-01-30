@@ -4,6 +4,7 @@ class AttachmentsController < ApplicationController
 
   def create
     @attachment = @comment.attachments.create!(attachment_params)
+    @attachment.reload
     render json: @attachment
   end
 

@@ -24,8 +24,7 @@ app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams
           }
         })
         .then(function (response){
-          //debugger
-          $scope.comment.attachments.push(response.config.data);
+          $scope.comment.attachments.push(response.data.attachment);
         });
       });
     }

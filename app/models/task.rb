@@ -19,10 +19,4 @@ class Task < ActiveRecord::Base
       transitions :from => :completed, :to => :in_progress
     end
   end
-
-  # def as_json(options = {})
-  #   super(options.merge(include: :comments))
-  # end
-
-
 end
