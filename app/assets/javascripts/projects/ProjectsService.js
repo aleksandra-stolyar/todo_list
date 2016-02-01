@@ -6,13 +6,13 @@ app.factory('ProjectsService', ['$http', function($http) {
   projects.getAll = function() {
     return $http.get('/projects.json')
     .success(function(data){
-      angular.copy(data, projects);
+      angular.copy(data.projects, projects.projects);
     })
   };
 
   projects.create = function(project) {
     return $http.post('/projects.json', project).success(function(data) {
-      projects.projects.push(data);
+      projects.projects.push(data.project);
     });
   };
 

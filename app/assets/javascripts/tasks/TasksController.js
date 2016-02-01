@@ -24,8 +24,8 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', fun
   $scope.addComment = function() {
     if($scope.commentBody === '') { return; }
     TasksService.createComment($scope.task, {body: $scope.commentBody})
-      .success(function(comment) {
-        $scope.task.comments.push(comment);
+      .success(function(data) {
+        $scope.task.comments.push(data.comment);
         console.log("Comment created!");
       });
     $scope.commentBody = '';
