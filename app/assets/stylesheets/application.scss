@@ -263,6 +263,11 @@ project {
   }
 }
 
+.nav-tabs li {
+  width: 50%;
+  text-align: center;
+}
+
 .modalButtonDiv {
   text-align: center;
   margin-bottom: 20px;
@@ -272,18 +277,12 @@ project {
 }
 
 .facebook {
-  background-color: #337ab7;
-  color: white;
-  width: 100px;
-  .brr {
-    font-weight: normal;
+  // background-color: #337ab7;
+  text-align: center;
+  display: table;
+  margin: 10px auto;
+  .btn {
     text-transform: none;
     letter-spacing: normal;
-  }
-  &:hover {
-    color: white;
-    .brr {
-      font-weight: bold;
-    }
   }
 }
