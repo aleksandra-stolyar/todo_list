@@ -70,14 +70,15 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :facebook,
     Rails.application.secrets.facebook_app_id,
-    Rails.application.secrets.facebook_secret,
+    Rails.application.secrets.facebook_app_secret,
     scope: 'email',
-    info_fields: 'email, name'
+    info_fields: 'email, name',
+    callback_url: "http://localhost:3000/users/auth/facebook/callback/"
 
-  if Rails.env.production?
-    config.omniauth :facebook, callback_url: "https://best-todo-list.herokuapp.com/users/auth/facebook/callback/"
-  else
-    config.omniauth :facebook, callback_url: "http://localhost:3000/users/auth/facebook/callback/"
-  end
+  # if Rails.env.production?
+  #   config.omniauth :facebook, callback_url: "https://best-todo-list.herokuapp.com/users/auth/facebook/callback/"
+  # else
+  #   config.omniauth :facebook, callback_url: "http://localhost:3000/users/auth/facebook/callback/"
+  # end
 
 end
