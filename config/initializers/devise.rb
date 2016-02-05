@@ -73,7 +73,7 @@ Devise.setup do |config|
     Rails.application.secrets.facebook_app_secret,
     scope: 'email',
     info_fields: 'email, name',
-    callback_url: "https://best-todo-list.herokuapp.com/users/auth/facebook/callback/"
+    callback_url: "http://localhost:3000/users/auth/facebook/callback/"
 
   # if Rails.env.production?
   #   config.omniauth :facebook, callback_url: "https://best-todo-list.herokuapp.com/users/auth/facebook/callback/"

@@ -6,9 +6,9 @@ development:
   enhance_image_tag: true
   static_image_support: false
 production:
-  cloud_name: aleksandra-stolyar
-  api_key: '258223448498375'
-  api_secret: u6lSqKbpRZVxnRS0Pr8amNdONX8
+  cloud_name: hft4dud00
+  api_key: '332763633927711'
+  api_secret: yjczYE-cZJ_29sKijW_Hd-SCmi8
   enhance_image_tag: true
   static_image_support: true
 test:

@@ -3,6 +3,7 @@ class AttachmentsController < ApplicationController
   load_and_authorize_resource through: :comment, shallow: true
 
   def create
+    # binding.pry
     @attachment = @comment.attachments.create!(attachment_params)
     @attachment.reload
     render json: @attachment
