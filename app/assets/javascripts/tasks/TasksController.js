@@ -1,13 +1,10 @@
 app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', function($scope, TasksService, $stateParams) {
 
   $scope.deleteTask = function() {
-    // debugger
     TasksService.delete(this.project, this.task).then(function() {
       console.log("Task removed!");
     });
   };
-
-  // $scope.task = {deadline: new Date()};
 
   $scope.updateTask = function(data) {
     TasksService.update(this.task, data).then(function() {

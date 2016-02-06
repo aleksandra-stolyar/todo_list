@@ -2,7 +2,6 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource :project
 
   def index
-    # binding.pry
     render json: @projects
   end
 

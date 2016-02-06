@@ -13,6 +13,7 @@
  */
 
 $fa-font-path: "fontawesome/fonts";
+$icon-font-path: 'bootstrap-sass/assets/fonts/bootstrap/';
 
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
@@ -41,7 +42,6 @@ a, span {
   background-repeat:no-repeat;
   border: none;
   cursor:pointer;
-  // overflow: hidden;
   outline:none;
 }
 
@@ -56,17 +56,11 @@ task .control-button {
   border-radius: 0;
   position: relative;
   padding-bottom: .8em;
-  // overflow: hidden;
-  // z-index: 2;
   .account-menu {
     position: absolute;
     z-index: 1;
     top: .75em;
     right: 1.5em;
-    .dropdown {
-          // z-index: 2;
-
-    }
     .caret {
       top: 45%;
       position: absolute;
@@ -90,7 +84,6 @@ task .control-button {
   width: 100%;
   height: 100%;
   padding: 3em;
-  // z-index: 1;
 }
 
 .editable-wrap {
@@ -125,11 +118,7 @@ project {
       border: none;
       color: white;
 
-      &:hover {
-        // cursor: text;
-      };
       &:active, &:focus {
-        // background-color: black;
         background: transparent;
         box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.9);
         color: white;
@@ -143,9 +132,7 @@ project {
   }
 
   .project-body {
-    // padding: .75em .75em .9em;
     background-color: white;
-    // visibility: hidden;
     task {
       span {
         text-transform: none;
@@ -183,14 +170,9 @@ project {
   }
 }
 
-// 1 Поля будут установлены одновременно от каждого края элемента.
-// 2 Первое значение устанавливает поля от верхнего и нижнего края, второе — от левого и правого.
-// 3 Первое значение задает поле от верхнего края, второе — одновременно от левого и правого края, а третье — от нижнего края.
-// 4 Поочередно устанавливается поля от верхнего, правого, нижнего и левого края.
-
 #newProject {
   border-radius: .5em;
-  padding-top: 1em; //find padding in projects and remove here
+  padding-top: 1em;
   padding-left: 2em;
   overflow-y: scroll;
   border: solid white;
@@ -221,8 +203,6 @@ project {
 }
 
 .task-deadline {
-  // padding-top: 20px;
-  // padding-bottom: 50px;
   font-weight: normal;
   letter-spacing: normal;
   font-size: 0.9em;
@@ -277,7 +257,6 @@ project {
 }
 
 .facebook {
-  // background-color: #337ab7;
   text-align: center;
   display: table;
   margin: 10px auto;

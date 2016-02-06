@@ -8,8 +8,4 @@ app.controller('NavbarController', ['$scope', 'Auth', function($scope, Auth, $ro
   });
 
   $scope.logout = Auth.logout;
-
-  // $scope.$on('devise:logout', function (e, user){
-  //   $scope.user = {};
-  // });
 }]);
