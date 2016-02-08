@@ -19,4 +19,9 @@ class Task < ActiveRecord::Base
       transitions :from => :completed, :to => :in_progress
     end
   end
+
+  def change_status
+    self.in_progress? ? self.complete : self.start
+    save!
+  end
 end

@@ -15,12 +15,10 @@ app.factory('TasksService', ['$http', function($http) {
   };
 
   tasks.updateStatus = function (task) {
-    if (task.status === 'in_progress') {
-      task.status = 'completed';
-    } else {
-      task.status = 'in_progress';
-    }
-    return $http.put('/tasks/' + task.id + '.json', {"status": task.status})
+    return $http.put('/tasks/' + task.id + '/set_status.json')
+      .success(function(data) {
+        task.status = data.task.status;
+      });
   };
 
   tasks.createComment = function (task, comment) {

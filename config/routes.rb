@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       post 'save_sort'
     end
     resources :tasks, defaults: { format: :json }, shallow: true do
+      member do
+        put 'set_status'
+      end
       resources :comments, defaults: { format: :json }, shallow: true do
         resources :attachments, defaults: { format: :json }, shallow: true
       end

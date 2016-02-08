@@ -17,6 +17,11 @@ class TasksController < ApplicationController
     render nothing: true, status: 204
   end
 
+  def set_status
+    @task.change_status
+    render json: @task
+  end
+
   private
 
   def task_params
