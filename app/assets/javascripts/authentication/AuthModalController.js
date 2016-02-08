@@ -11,7 +11,7 @@ app.controller('AuthModalController', ['$scope', '$uibModalInstance', 'Auth', '$
 
   $scope.tabs = [
     { heading: "SIGN IN", route:"signin", active:true },
-    { heading: "SIGN UP", route:"signup", active:false },
+    { heading: "SIGN UP", route:"signup", active:false }
   ];
 
   $scope.$on("$stateChangeSuccess", function() {

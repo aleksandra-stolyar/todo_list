@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource :project
 
   def index
-    render json: @projects
+    render json: @projects.ordered
   end
 
   def create
@@ -20,15 +20,6 @@ class ProjectsController < ApplicationController
 
     render nothing: true, status: 204
   end
-
-  # def new_untitled
-  #   @project = current_user.projects.new(name: 'Untitled')
-  #   if @project.save
-  #     render @project
-  #   else
-  #     render text: @project.errors.full_messages.join("\n"), status: :error
-  #   end
-  # end
 
   def save_sort
     params[:taskIds].each_with_index do |task_id, index|

@@ -23,7 +23,7 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stic
       resolve: {
         projectsPromise: ['ProjectsService', function (ProjectsService){
           return ProjectsService.getAll();
-        }],
+        }]
       }
     })
     .state('authModal', {
