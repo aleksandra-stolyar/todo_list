@@ -3,5 +3,5 @@ class Project < ActiveRecord::Base
   has_many :tasks, dependent: :destroy
 
   validates :name, presence: true
-  scope :ordered, -> { order('created_at ASC') }
+  scope :ordered, -> { order('created_at DESC') }
 end
