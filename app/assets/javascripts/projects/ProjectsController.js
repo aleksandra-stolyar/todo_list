@@ -1,32 +1,45 @@
-app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', 'Auth', function($scope, ProjectsService, $stateParams, TasksService, $http, Auth) {
+app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', 'Auth', 'Messages', function($scope, ProjectsService, $stateParams, TasksService, $http, Auth, Messages) {
   $scope.projects = ProjectsService.projects;
 
   $scope.createProject = function() {
     if(!$scope.projectName || $scope.projectName === '') { return; }
-    ProjectsService.create({name: $scope.projectName});
+    ProjectsService.create({name: $scope.projectName})
+      .success(function(response) {
+        Messages.success(response)
+      })
+      .error(function(response) {
+        Messages.error(response)
+      });
     $scope.projectName = '';
-    console.log("Project created!");
   };
 
   $scope.updateProject = function(data) {
-    ProjectsService.update(this.project, data).then(function(){
-      console.log("Project updated!");
-    });
+    ProjectsService.update(this.project, data)
+      .success(function(){
+        Messages.warning(response)
+      })
+      .error(function(response) {
+        Messages.error(response)
+      });
   };
 
   $scope.deleteProject =function() {
-    ProjectsService.delete(this.project).then(function() {
-      $scope.projects = ProjectsService.projects;
-      console.log("Project removed!");
-    });
+    ProjectsService.delete(this.project)
+      .success(function(response) {
+        $scope.projects = ProjectsService.projects;
+        Messages.warning(response)
+      });
   };
 
   $scope.addTask = function() {
     if($scope.taskName === '') { return; }
     ProjectsService.createTask($scope.$parent.project, {name: $scope.taskName})
-      .success(function(data) {
-        $scope.$parent.project.tasks.push(data.task);
-        console.log("Task created!");
+      .success(function(response) {
+        $scope.project.tasks.push(response.task);
+        Messages.success(response)
+      })
+      .error(function(response) {
+        Messages.error(response)
       });
     $scope.taskName = '';
   };

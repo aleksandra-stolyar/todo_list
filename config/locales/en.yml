@@ -20,4 +20,31 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  project:
+    create:
+      success: "Hoooray! You have new project!"
+      error: "Couldn't create new project.."
+    update:
+      success: "Project updated."
+      error: "Project not updated :("
+    delete: "You deleted project."
+  task:
+    create:
+      success: "New task created. To change priority just drag-and-drop to needed place."
+      error: "Couldn't create new task.."
+    update:
+      success: "Task updated."
+      error: "Task not updated."
+    delete: "You deleted task."
+    status: "Task status changed."
+    priority: "Task priority changed."
+  comment:
+    create:
+      success: "New comment created."
+      error: "Couldn't create new project.."
+    update:
+      success: "Comment updated."
+      error: "Comment not updated."
+    delete: "You deleted comment."
+  attachment:
+    create: "New attachment added."

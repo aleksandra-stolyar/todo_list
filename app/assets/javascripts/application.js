@@ -26,9 +26,8 @@
 //= require bootstrap-ui-datetime-picker/dist/datetime-picker.min.js
 //= require ng-file-upload
 //= require ng-file-upload-shim
+//= require angular-flash-alert/dist/angular-flash.min.js
 //= require ui-router-extras/release/modular/ct-ui-router-extras.core.min.js
 //= require ui-router-extras/release/modular/ct-ui-router-extras.sticky.min.js
 
 //= require_tree .
-
-$('#newProject').animate({scrollTop: $('#newProject').prop("scrollHeight")}, 500);

@@ -7,18 +7,24 @@ class ProjectsController < ApplicationController
 
   def create
     @project = current_user.projects.create(project_params)
-    render json: @project
+    if @project.save
+      render json: {project: @project, message: I18n.t('project.create.success'), status: 201}
+    else
+      render json: {message: I18n.t('project.create.error'), status: 400}
+    end
   end
 
   def update
-    @project.update_attributes(project_params)
-    render nothing: true, status: 204
+    if @project.update_attributes(project_params)
+      render json: {message: I18n.t('project.update.success'), status: 200}
+    else
+      render json: {message: I18n.t('project.update.error'), status: 400}
+    end
   end
 
   def destroy
     @project.destroy
-
-    render nothing: true, status: 204
+    render json: {message: I18n.t('project.delete'), status: 200}
   end
 
   def save_sort
@@ -28,14 +34,14 @@ class ProjectsController < ApplicationController
       task.project_id = params[:project_id]
       task.save!
     end
-    render nothing: true
+    render json: {message: I18n.t('task.priority'), status: 200 }
   end
 
   private
 
-  def api_response(object, code = :ok)
-    render json: object.to_json, status: code
-  end
+  # def api_response(object, code = :ok)
+  #   render json: object.to_json, status: code
+  # end
 
   def project_params
     params.require(:project).permit(:name)

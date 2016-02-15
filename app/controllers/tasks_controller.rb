@@ -4,22 +4,29 @@ class TasksController < ApplicationController
 
   def create
     @task = @project.tasks.create(task_params)
-    render json: @task
+    if @task.save
+      render json: {task: @task, message: I18n.t('task.create.success'), status: 201}
+    else
+      render json: {message: I18n.t('task.create.error'), status: 400}
+    end
   end
 
   def update
-    @task.update_attributes(task_params)
-    render nothing: true, status: 204
+    if @task.update_attributes(task_params)
+      render json: {message: I18n.t('task.update.success'), status: 200}
+    else
+      render json: {message: I18n.t('task.update.error'), status: 400}
+    end
   end
 
   def destroy
     @task.destroy
-    render nothing: true, status: 204
+    render json: {message: I18n.t('task.delete'), status: 200}
   end
 
   def set_status
     @task.change_status
-    render json: @task
+    render json: {task: @task, message: I18n.t('task.status'), status: 201}
   end
 
   private

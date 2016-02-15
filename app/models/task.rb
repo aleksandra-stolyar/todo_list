@@ -24,4 +24,9 @@ class Task < ActiveRecord::Base
     self.in_progress? ? self.complete : self.start
     save!
   end
+
+  def as_json(options = {})
+    super(options.merge(include: :comments))
+  end
+
 end

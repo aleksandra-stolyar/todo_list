@@ -7,7 +7,8 @@ var app = angular.module('ToDoApp', [
   'ui.bootstrap.datetimepicker',
   'ngFileUpload',
   'ui.sortable',
-  'Devise'
+  'Devise',
+  'ngFlash'
 ]);
 //Routing
 app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stickyStateProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $stickyStateProvider) {
@@ -17,7 +18,7 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stic
       url: '/',
       templateUrl: 'projects/_main.html',
       controller: 'ProjectsController',
-      data : {
+      data: {
         requireLogin : true
       },
       resolve: {
@@ -30,7 +31,7 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stic
       abstract: true,
       url: '/register',
       deepStateRedirect: { default: 'signin' },
-      data : {
+      data: {
         requireLogin : false
       },
       onEnter: ['$stateParams', '$state', '$uibModal', 'Auth','$rootScope', function ($stateParams, $state, $uibModal, Auth, $rootScope, $log) {

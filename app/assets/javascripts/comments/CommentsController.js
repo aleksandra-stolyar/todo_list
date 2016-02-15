@@ -1,14 +1,16 @@
-app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams', 'Upload', '$timeout', function ($scope, CommentsService, $stateParams, Upload, $timeout) {
+app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams', 'Upload', '$timeout', 'Messages', function ($scope, CommentsService, $stateParams, Upload, $timeout, Messages) {
   $scope.deleteComment = function() {
-    CommentsService.deleteComment(this.task, this.comment).then(function() {
-      console.log("Comment deleted!")
-    });
+    CommentsService.deleteComment(this.task, this.comment)
+      .success(function(response) {
+        Messages.warning(response)
+      });
   };
 
   $scope.updateComment = function(data) {
-    CommentsService.updateComment(this.comment, data).then(function() {
-      console.log("Comment updated!");
-    });
+    CommentsService.updateComment(this.comment, data)
+      .success(function(response) {
+        Messages.warning(response)
+      });
   };
 
   $scope.addAttachment = function(files) {
@@ -23,8 +25,9 @@ app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams
             filename: file.name
           }
         })
-        .then(function (response){
-          $scope.comment.attachments.push(response.data.attachment);
+        .success(function (response){
+          $scope.comment.attachments.push(response.attachment);
+          Messages.success(response)
         });
       });
     }

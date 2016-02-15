@@ -18,7 +18,6 @@
           <div ng-include="'navbar/_navbar.html'"></div>
         </div>
       </div>
-
       <div class="row">
         <div class="branding">
           <h1 class="text-center">SIMPLE TODO LISTS</h1>
@@ -30,6 +29,9 @@
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <div ui-view></div>
+        </div>
+        <div class="col-md-3 pull-right messages-container">
+          <flash-message duration="5000" show-close="true"></flash-message>
         </div>
       </div>
     </div>
