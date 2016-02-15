@@ -22,7 +22,7 @@ module TodoList
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-
+    config.web_console.development_only = false
     # Enable the asset pipeline
     config.assets.enabled = true
 
@@ -30,6 +30,13 @@ module TodoList
     config.assets.paths << Rails.root.join("vendor","assets","bower_components","bootstrap-sass-official","assets","fonts")
 
     config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff|woff2)$)
+
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    config.generators do |g|
+      g.test_framework :rspec
+      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+    end
 
   end
 end

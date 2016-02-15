@@ -41,7 +41,7 @@ gem 'cancancan', '~> 1.10'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'aasm', '~> 4.2.0'
+gem 'aasm'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'cloudinary'
 
@@ -61,9 +61,18 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'codeclimate-test-reporter'
 end
 
 group :production do
   gem 'rails_12factor'
 end
-
