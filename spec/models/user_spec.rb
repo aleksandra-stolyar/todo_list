@@ -36,7 +36,10 @@ describe User, type: :model do
       let(:task){create(:task, project: project)}
       let(:comment){create(:comment, task: task)}
 
-      it {expect(ability).to be_able_to(:manage, project)}
+      it {expect(ability).to be_able_to(:index, project)}
+      it {expect(ability).to be_able_to(:create, project)}
+      it {expect(ability).to be_able_to(:destroy, project)}
+      it {expect(ability).to be_able_to(:update, project)}
       it {expect(ability).to be_able_to(:update, Task.new(project: project))}
       it {expect(ability).to be_able_to(:set_status, Task.new(project: project))}
       it {expect(ability).to be_able_to(:create, comment)}

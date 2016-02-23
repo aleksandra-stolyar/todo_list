@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :project do
-    name { Faker::Name.name }
+    name { Faker::Lorem.word }
     created_at 1.week.ago
     user
   end
