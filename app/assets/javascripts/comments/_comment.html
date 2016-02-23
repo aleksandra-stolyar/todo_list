@@ -20,15 +20,12 @@
       </button>
     </div>
   </div>
-  <!-- <div ng-controller="CommentsController"> -->
-    <div ng-repeat="attachment in comment.attachments">
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <span><i class="fa fa-cloud-download"></i></span>
-          <a ng-href="{{attachment.attachment.url}}" target="_blank">{{attachment.filename}}</a>
-          <!-- <img ngf-thumbnail="{{file.attachment}}" width="100px" height="100px"> -->
-        </div>
+  <div ng-repeat="attachment in comment.attachments">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <span><i class="fa fa-cloud-download"></i></span>
+        <a ng-href="{{attachment.attachment.url}}" target="_blank">{{attachment.filename}}</a>
       </div>
     </div>
-  <!-- </div> -->
+  </div>
 </div>

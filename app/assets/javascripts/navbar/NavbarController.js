@@ -4,7 +4,6 @@ app.controller('NavbarController', ['$scope', 'Auth', function($scope, Auth, $ro
 
   $scope.$on('rootScope:broadcast', function (event, data) {
     $scope.user = data;
-    console.log(data + ' in navBar scope'); //currentUser
   });
 
   $scope.logout = Auth.logout;

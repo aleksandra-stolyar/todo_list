@@ -13,6 +13,8 @@ var app = angular.module('ToDoApp', [
 //Routing
 app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stickyStateProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $stickyStateProvider) {
   $stickyStateProvider.enableDebug(true);
+  $locationProvider.html5Mode(true);
+  $urlRouterProvider.otherwise('/sign_in');
   $stateProvider
     .state('home', {
       url: '/',
@@ -29,7 +31,7 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stic
     })
     .state('authModal', {
       abstract: true,
-      url: '/register',
+      url: '/users',
       deepStateRedirect: { default: 'signin' },
       data: {
         requireLogin : false
@@ -66,8 +68,6 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$stic
         }
       }
     });
-
-  $locationProvider.html5Mode(true);
 }]);
 
 // Intercept 401 Unauthorized everywhere
