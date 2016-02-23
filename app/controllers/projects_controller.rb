@@ -39,12 +39,8 @@ class ProjectsController < ApplicationController
 
   private
 
-  # def api_response(object, code = :ok)
-  #   render json: object.to_json, status: code
-  # end
-
   def project_params
-    params.require(:project).permit(:name)
+    params.permit(:name)
   end
 
 end
