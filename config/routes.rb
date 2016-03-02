@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", registrations: 'users/registrations', sessions: "users/sessions" }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -6,16 +7,16 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root "application#angular"
 
-  resources :projects, defaults: { format: :json } do
+  resources :projects do
     collection  do
       post 'save_sort'
     end
-    resources :tasks, defaults: { format: :json }, shallow: true do
+    resources :tasks, shallow: true do
       member do
         put 'set_status'
       end
-      resources :comments, defaults: { format: :json }, shallow: true do
-        resources :attachments, defaults: { format: :json }, shallow: true
+      resources :comments, shallow: true do
+        resources :attachments, shallow: true
       end
     end
   end

@@ -1,15 +1,15 @@
 app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams', 'Upload', '$timeout', 'Messages', function ($scope, CommentsService, $stateParams, Upload, $timeout, Messages) {
   $scope.deleteComment = function() {
     CommentsService.deleteComment(this.task, this.comment)
-      .success(function(response) {
-        Messages.warning(response)
+      .then(function successCallback(response) {
+        Messages.warning(response.data)
       });
   };
 
   $scope.updateComment = function(data) {
     CommentsService.updateComment(this.comment, data)
-      .success(function(response) {
-        Messages.warning(response)
+      .then(function successCallback(response) {
+        Messages.warning(response.data)
       });
   };
 
@@ -25,9 +25,9 @@ app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams
             filename: file.name
           }
         })
-        .success(function (response){
-          $scope.comment.attachments.push(response.attachment);
-          Messages.success(response)
+        .then(function successCallback(response) {
+          $scope.comment.attachments.push(response.data.attachment);
+          Messages.success(response.data)
         });
       });
     }

@@ -83,7 +83,6 @@ app.run(['$rootScope', '$state', 'Auth', '$log', '$window', 'AuthService', funct
   });
 
   $rootScope.isAuthenticated = Auth.isAuthenticated();
-
   $rootScope.$watch(
     function() { return Auth.isAuthenticated(); },
     function(newValue, oldValue) {

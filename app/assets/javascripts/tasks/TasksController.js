@@ -2,37 +2,35 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', 'Me
 
   $scope.deleteTask = function() {
     TasksService.delete(this.project, this.task)
-      .success(function(response) {
-        Messages.warning(response)
+      .then(function successCallback(response) {
+        Messages.warning(response.data)
       });
   };
 
   $scope.updateTask = function(data) {
     TasksService.update(this.task, data)
-      .success(function(response) {
-        Messages.warning(response)
-      })
-      .error(function(response) {
-        Messages.error(response)
+      .then(function successCallback(response) {
+        Messages.warning(response.data)
+      }, function errorCallback(response) {
+        Messages.error(response.data)
       });
   };
 
   $scope.setStatus = function() {
     TasksService.updateStatus(this.task)
       .success(function(response) {
-        Messages.success(response)
+        Messages.success(response.data)
     });
   };
 
   $scope.addComment = function() {
     if($scope.commentBody === '') { return; }
     TasksService.createComment($scope.task, {body: $scope.commentBody})
-      .success(function(response) {
-        $scope.task.comments.push(response.comment);
-        Messages.success(response)
-      })
-      .error(function(response) {
-        Messages.error(response)
+      .then(function successCallback(response) {
+        $scope.task.comments.push(response.data.comment);
+        Messages.success(response.data)
+      }, function errorCallback(response) {
+        Messages.error(response.data)
       });
     $scope.commentBody = '';
   };

@@ -4,42 +4,40 @@ app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams
   $scope.createProject = function() {
     if(!$scope.projectName || $scope.projectName === '') { return; }
     ProjectsService.create({name: $scope.projectName})
-      .success(function(response) {
-        Messages.success(response)
-      })
-      .error(function(response) {
-        Messages.error(response)
+      .then(function successCallback(response) {
+        $scope.projects = ProjectsService.projects;
+        Messages.success(response.data)
+      }, function errorCallback(response) {
+        Messages.error(response.data)
       });
     $scope.projectName = '';
   };
 
   $scope.updateProject = function(data) {
     ProjectsService.update(this.project, data)
-      .success(function(){
-        Messages.warning(response)
-      })
-      .error(function(response) {
-        Messages.error(response)
+      .then(function successCallback(response) {
+        Messages.warning(response.data)
+      }, function errorCallback(response) {
+        Messages.error(response.data)
       });
   };
 
-  $scope.deleteProject =function() {
+  $scope.deleteProject = function() {
     ProjectsService.delete(this.project)
-      .success(function(response) {
+      .then(function successCallback(response) {
         $scope.projects = ProjectsService.projects;
-        Messages.warning(response)
+        Messages.warning(response.data)
       });
   };
 
   $scope.addTask = function() {
     if($scope.taskName === '') { return; }
     ProjectsService.createTask($scope.$parent.project, {name: $scope.taskName})
-      .success(function(response) {
-        $scope.project.tasks.push(response.task);
-        Messages.success(response)
-      })
-      .error(function(response) {
-        Messages.error(response)
+      .then(function successCallback(response) {
+        $scope.project.tasks.push(response.data.task);
+        Messages.success(response.data)
+      }, function errorCallback(response) {
+        Messages.error(response.data)
       });
     $scope.taskName = '';
   };
