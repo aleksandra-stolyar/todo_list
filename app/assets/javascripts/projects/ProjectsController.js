@@ -5,7 +5,7 @@ app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams
     if(!$scope.projectName || $scope.projectName === '') { return; }
     ProjectsService.create({name: $scope.projectName})
       .then(function successCallback(response) {
-        $scope.projects = ProjectsService.projects;
+        $scope.projects.push(response.data.project);
         Messages.success(response.data)
       }, function errorCallback(response) {
         Messages.error(response.data)
@@ -13,8 +13,8 @@ app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams
     $scope.projectName = '';
   };
 
-  $scope.updateProject = function(data) {
-    ProjectsService.update(this.project, data)
+  $scope.updateProject = function(project, data) {
+    ProjectsService.update(project, data)
       .then(function successCallback(response) {
         Messages.warning(response.data)
       }, function errorCallback(response) {
@@ -22,10 +22,10 @@ app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams
       });
   };
 
-  $scope.deleteProject = function() {
-    ProjectsService.delete(this.project)
+  $scope.deleteProject = function(project) {
+    ProjectsService.delete(project)
       .then(function successCallback(response) {
-        $scope.projects = ProjectsService.projects;
+        $scope.projects = _.without($scope.projects, project);
         Messages.warning(response.data)
       });
   };

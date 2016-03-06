@@ -3,11 +3,8 @@ app.service('CommentsService', ['$http', function($http) {
     comments: []
   };
 
-  comments.deleteComment = function(task, comment) {
+  comments.deleteComment = function(comment) {
     return $http.delete('/comments/' + comment.id)
-      .success(function() {
-        task.comments = _.without(task.comments, comment);
-      });
   };
 
   comments.updateComment = function(comment, data) {

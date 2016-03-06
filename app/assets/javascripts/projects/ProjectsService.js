@@ -11,9 +11,7 @@ app.service('ProjectsService', ['$http', function($http) {
   };
 
   projects.create = function(project) {
-    return $http.post('/projects', project).success(function(data) {
-      projects.projects.push(data.project);
-    });
+    return $http.post('/projects', project)
   };
 
   projects.update = function(project, data) {
@@ -22,9 +20,6 @@ app.service('ProjectsService', ['$http', function($http) {
 
   projects.delete = function(project) {
     return $http.delete('/projects/' + project.id)
-      .success(function(data){
-        projects.projects = _.without(projects.projects, project);
-      });
   };
 
   projects.createTask = function(project, task) {

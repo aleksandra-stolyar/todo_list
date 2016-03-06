@@ -1,13 +1,14 @@
 app.controller('CommentsController', ['$scope', 'CommentsService', '$stateParams', 'Upload', '$timeout', 'Messages', function ($scope, CommentsService, $stateParams, Upload, $timeout, Messages) {
-  $scope.deleteComment = function() {
-    CommentsService.deleteComment(this.task, this.comment)
+  $scope.deleteComment = function(comment) {
+    CommentsService.deleteComment(comment)
       .then(function successCallback(response) {
+        $scope.task.comments = _.without($scope.task.comments, comment);
         Messages.warning(response.data)
       });
   };
 
-  $scope.updateComment = function(data) {
-    CommentsService.updateComment(this.comment, data)
+  $scope.updateComment = function(comment, data) {
+    CommentsService.updateComment(comment, data)
       .then(function successCallback(response) {
         Messages.warning(response.data)
       });

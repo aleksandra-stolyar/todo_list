@@ -1,14 +1,15 @@
 app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', 'Messages', function($scope, TasksService, $stateParams, Messages) {
 
-  $scope.deleteTask = function() {
-    TasksService.delete(this.project, this.task)
+  $scope.deleteTask = function(task) {
+    TasksService.delete(task)
       .then(function successCallback(response) {
+        $scope.project.tasks = _.without($scope.project.tasks, task);
         Messages.warning(response.data)
       });
   };
 
-  $scope.updateTask = function(data) {
-    TasksService.update(this.task, data)
+  $scope.updateTask = function(task, data) {
+    TasksService.update(task, data)
       .then(function successCallback(response) {
         Messages.warning(response.data)
       }, function errorCallback(response) {
@@ -16,8 +17,8 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', 'Me
       });
   };
 
-  $scope.setStatus = function() {
-    TasksService.updateStatus(this.task)
+  $scope.setStatus = function(task) {
+    TasksService.updateStatus(task)
       .success(function(response) {
         Messages.success(response.data)
     });

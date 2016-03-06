@@ -3,11 +3,8 @@ app.service('TasksService', ['$http', function($http) {
     tasks: []
   };
 
-  tasks.delete = function (project, task) {
+  tasks.delete = function (task) {
     return $http.delete('/tasks/' + task.id)
-      .success(function() {
-        project.tasks = _.without(project.tasks, task);
-      });
   };
 
   tasks.update = function (task, data) {
