@@ -13,6 +13,7 @@
     "ng-file-upload": "latest",
     "angular-devise": "latest",
     "ui-router-extras": "latest",
-    "angular-flash-alert": "latest"
+    "angular-flash-alert": "latest",
+    "angular-mocks": "latest"
   }
 }
