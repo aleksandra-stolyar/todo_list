@@ -19,9 +19,10 @@ app.controller('TasksController', ['$scope', 'TasksService', '$stateParams', 'Me
 
   $scope.setStatus = function(task) {
     TasksService.updateStatus(task)
-      .success(function(response) {
+      .then(function successCallback(response) {
+        task.status = response.data.task.status;
         Messages.success(response.data)
-    });
+      });
   };
 
   $scope.addComment = function() {

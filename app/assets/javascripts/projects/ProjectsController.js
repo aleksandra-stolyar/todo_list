@@ -1,4 +1,4 @@
-app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams', 'TasksService', '$http', 'Auth', 'Messages', function($scope, ProjectsService, $stateParams, TasksService, $http, Auth, Messages) {
+app.controller('ProjectsController', ['$scope', 'ProjectsService', '$stateParams', '$http', 'Auth', 'Messages', function($scope, ProjectsService, $stateParams, $http, Auth, Messages) {
   $scope.projects = ProjectsService.projects;
 
   $scope.createProject = function() {

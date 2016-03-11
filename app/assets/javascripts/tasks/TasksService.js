@@ -13,9 +13,6 @@ app.service('TasksService', ['$http', function($http) {
 
   tasks.updateStatus = function (task) {
     return $http.put('/tasks/' + task.id + '/set_status')
-      .success(function(data) {
-        task.status = data.task.status;
-      });
   };
 
   tasks.createComment = function (task, comment) {
