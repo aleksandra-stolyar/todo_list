@@ -1,3 +1,5 @@
+//= require helpers/angular_helpers
+
 describe("ProjectsController", function() {
   var $scope, ProjectsService, Messages, defer;
 
@@ -116,7 +118,7 @@ describe("ProjectsController", function() {
   describe('.deleteProject', function() {
     beforeEach(function () {
       spyOn(Messages, 'warning').and.returnValue("message");
-      project = { id: 1 };
+      project = $scope.projects[1];
     });
 
     it("makes request", function () {
@@ -124,6 +126,14 @@ describe("ProjectsController", function() {
       $scope.deleteProject(project);
       expect(ProjectsService.delete).toHaveBeenCalled();
     });
+
+    it("changes projects count", function () {
+      defer.resolve('');
+      $scope.deleteProject(project);
+      rootScope.$apply();
+      expect($scope.projects.length).toBe(1);
+    });
+
   });
 
   describe('.addTask', function() {
