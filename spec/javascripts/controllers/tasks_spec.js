@@ -21,10 +21,6 @@ describe("TasksController", function() {
         {id: 0, name: 'project 1'}
       ];
 
-      // mockTasksService.tasks = [
-      //   {id: 0, name: 'task 1', status: "in_progress" }
-      // ];
-
       mockTasksService.delete = function(item) {
         return defer.promise;
       };
@@ -51,8 +47,6 @@ describe("TasksController", function() {
     TasksService = _TasksService_;
     Messages = _Messages_;
     $controller('TasksController', {$scope: $scope, TasksService: TasksService, Messages: Messages});
-    $scope.$digest();
-    $httpBackend.whenGET('/projects').respond(200, TasksService.projects);
     $httpBackend.flush();
     $scope.project = {id: 0, name: 'project 1', tasks: [{id: 0, name: 'task 1', status: "in_progress" }]};
   }));
@@ -98,7 +92,7 @@ describe("TasksController", function() {
     beforeEach(function () {
       spyOn(Messages, 'warning').and.returnValue("message");
       task = $scope.project.tasks[0];
-      data = 'updated project';
+      data = 'updated task';
     });
 
     it("makes request", function () {

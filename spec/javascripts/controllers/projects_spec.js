@@ -48,7 +48,6 @@ describe("ProjectsController", function() {
     ProjectsService = _ProjectsService_;
     Messages = _Messages_;
     $controller('ProjectsController', {$scope: $scope, ProjectsService: ProjectsService, Messages: Messages});
-    $scope.$digest();
     $httpBackend.whenGET('/projects').respond(200, ProjectsService.projects);
     $httpBackend.flush();
   }));
