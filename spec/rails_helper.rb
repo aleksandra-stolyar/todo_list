@@ -9,7 +9,9 @@ require 'rspec/rails'
 require "cancan/matchers"
 require "aasm/rspec"
 require 'devise'
-require 'capybara/rails'
+require 'capybara/rspec'
+require 'capybara/poltergeist'
+require 'sprockets/railtie'
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -29,10 +31,22 @@ require 'capybara/rails'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, { debug: true, js_errors: true })
+end
+
 RSpec.configure do |config|
   config.include ActionDispatch::TestProcess
+  config.include Warden::Test::Helpers
+
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false
+
+  config.before :suite do
+    Warden.test_mode!
+  end
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -44,7 +58,7 @@ RSpec.configure do |config|
       example.run
     end
   end
-
+  config.include Devise::TestHelpers, :type => :controller
   config.include FactoryGirl::Syntax::Methods
 
   # RSpec Rails can automatically mix in different behaviours to your tests

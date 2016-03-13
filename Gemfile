@@ -65,6 +65,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'jasmine-rails'
+  gem 'poltergeist'
 end
 
 group :test do
@@ -72,6 +73,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'codeclimate-test-reporter'
+  gem 'launchy'
 end
 
 group :production do
